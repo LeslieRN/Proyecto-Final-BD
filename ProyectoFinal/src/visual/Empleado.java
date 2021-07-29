@@ -12,8 +12,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.NumberFormatter;
 
-import com.sun.glass.ui.Pixels.Format;
-
 import logico.Disenador;
 import logico.Empresa;
 import logico.Jefe;
