@@ -23,6 +23,8 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -39,6 +41,7 @@ public class NuevoProyecto extends JDialog {
 	private static JTextField txtNombre;
 	private static JTextField txtCodigo;
 	private static DefaultTableModel model;
+	private static DefaultComboBoxModel modelComboLanguage;
 	private static Object[] rows;
 	private static JComboBox cmbLenguajes;
 	private JButton btnAgregarEmpleado;
@@ -46,7 +49,6 @@ public class NuevoProyecto extends JDialog {
 	private static JSpinner spnFentrega;
 	private static JSpinner spnFinicio;
 	private static JComboBox cbxTipo;
-	private String elNombre;
 
 	/**
 	 * Launch the application.
@@ -69,6 +71,7 @@ public class NuevoProyecto extends JDialog {
 		setBounds(100, 100, 584, 451);
 		setLocationRelativeTo(null);
 		model = new DefaultTableModel();
+		modelComboLanguage = new DefaultComboBoxModel(); 
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(255, 255, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -226,7 +229,8 @@ public class NuevoProyecto extends JDialog {
 
 			cmbLenguajes = new JComboBox();
 			cmbLenguajes.setBackground(new Color(255, 255, 255));
-			cmbLenguajes.setModel(new DefaultComboBoxModel(new String[] {"Python", "C#", "JavaScript", "Ruby", "C++", "C", "Java", "Angular"}));
+			cmbLenguajes.setModel(modelComboLanguage);
+			//cmbLenguajes.setModel(new DefaultComboBoxModel(new String[] {"Python", "C#", "JavaScript", "Ruby", "C++", "C", "Java", "Angular"}));
 			cmbLenguajes.setBounds(345, 116, 86, 20);
 			panel.add(cmbLenguajes);
 
@@ -268,7 +272,7 @@ public class NuevoProyecto extends JDialog {
 			formatterEntrega.setOverwriteMode(true);
 			panel.add(spnFentrega);
 		}
-		
+
 		if(codigo != null) {
 			txtCodigo.setText(codigo);
 			txtNombre.setText(nombre);
@@ -278,6 +282,7 @@ public class NuevoProyecto extends JDialog {
 			spnFentrega.setValue(fechaFin);
 			cargarDatosTabla(temp_emp);
 		}
+		cargarDatosComboboxLenguaje();
 	}
 	public static void agregarLenguajeProgramador(DefaultTableModel modelProyecto) {
 		String[] empleados = {"Cedula", "Nombre", "Puesto"};
@@ -309,18 +314,6 @@ public class NuevoProyecto extends JDialog {
 		return true;
 	}
 
-	/*public static void datosAnteriores() {
-		if(Empresa.getEnable() == true) {	
-			txtCodigo.setText(""+Empresa.getCodigo());
-			txtNombre.setText(""+Empresa.getNombre());
-			spnFinicio.setValue(Empresa.getInicio());
-			cbxTipo.setSelectedIndex(Empresa.getTipo());
-			cmbLenguajes.setSelectedIndex(Empresa.getLenguaje());
-			spnFentrega.setValue(Empresa.getFin());
-			cargarDatosTabla();
-			Empresa.setEnable(false);
-		}
-	} */
 	private ArrayList<Empleado> insertarEmpleadoProyecto(DefaultTableModel model) {
 		ArrayList<Empleado> arrayEmpleados= new ArrayList<Empleado>();
 		Empleado empProv = null;
@@ -337,6 +330,19 @@ public class NuevoProyecto extends JDialog {
 	/**
 	 * Esto es para cuando se regrese a la ventana siguiente
 	 */
+
+	private static void cargarDatosComboboxLenguaje() {
+		String selectSql = "select nombre from Lenguaje;";
+		ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
+		try {
+			while(resultSet.next()) {
+				modelComboLanguage.addElement(resultSet.getString(1));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	private static void cargarDatosTabla(ArrayList<Empleado> temp_emp) {
 		String[] empleados = {"Cedula", "Nombre", "Puesto"};
 		model.setColumnIdentifiers(empleados);

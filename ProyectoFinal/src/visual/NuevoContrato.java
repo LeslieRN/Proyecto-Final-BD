@@ -235,7 +235,7 @@ public class NuevoContrato extends JDialog {
 			panel_1.add(lblIdCliente);
 
 			txtNombreP = new JTextField();
-			txtNombreP.setText(Empresa.getNombre());
+			txtNombreP.setText(nombre);
 			txtNombreP.setEnabled(false);
 			txtNombreP.addKeyListener(new KeyAdapter() {
 				@Override
@@ -310,7 +310,7 @@ public class NuevoContrato extends JDialog {
 							JOptionPane.showMessageDialog(null,  "No es posible completar la accion, el cliente cuenta con la cantidad maxima de proyectos activos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 						} else {
 							Cliente cli = new Cliente(cedula, nombre, direccion, telefono);
-							Proyecto p = new Proyecto(nombreP, tipo, true, lenguaje, false, fechaInicio, fechaFin, fechaFin, Empresa.getTemp());
+							Proyecto p = new Proyecto(nombreP, tipo, true, lenguaje, false, fechaInicio, fechaFin, fechaFin, temporal_Empleado);
 							Contrato c = new Contrato(idContrato, cedula, nombreP, cli, p, montoTotalContrato);
 
 							if(cExiste == true) {

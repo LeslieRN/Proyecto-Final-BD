@@ -23,6 +23,8 @@ import javax.swing.UIManager;
 import javax.swing.ScrollPaneConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
@@ -238,15 +240,20 @@ public class AgregarEmpleado extends JDialog {
 	}
 	
 	public static void cargarEmpleados(String nombreLenguaje) {
-		ArrayList<Empleado> emp2 = new ArrayList<Empleado>();
-		emp2.addAll(Empresa.getInstance().buscarEmpleadoPorLenguaje(nombreLenguaje));
+		String selectSql = "select E.cedula, E.nombre, P.nombre from Empleado as E inner join Puesto as P on E.idPuesto = P.idPuesto inner join EmpleadoLenguaje as EL on E.cedula = EL.cedula inner join Lenguaje as L on EL.idLenguaje = L.idLenguaje  where L.nombre = '"+nombreLenguaje+"'";
+		ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
 		rows = new Object[model.getColumnCount()];
 		model.setRowCount(0);
-		for(int i = 0; i < emp2.size() ; i++) {
-			rows[0] = emp2.get(i).getCedula().toString();
-			rows[1] = emp2.get(i).getNombre().toString();
-			rows[2] = emp2.get(i).getClass().getSimpleName().toString();
-			model.addRow(rows);
+		try {
+			while(resultSet.next()) {
+				rows[0] = resultSet.getString(1);
+				rows[1] = resultSet.getString(2);
+				rows[2] = resultSet.getString(3);
+				model.addRow(rows);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	private static boolean checkElements(String elemento) {

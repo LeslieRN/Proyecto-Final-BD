@@ -26,12 +26,12 @@ public class Empresa implements Serializable{
 	private static int numContratos = 1;
 	private static int numEmpleados = 1;
 	private static int numProyectos = 1;
-	private static int codigo = 0;
+	/*private static int codigo = 0;
 	private static int tipo = 0;
 	private static int lenguaje = 0;
 	private static String nombre = null;
 	private static Date inicio = null;
-	private static Date fin = null;
+	private static Date fin = null;*/
 	
 	
 	private static ArrayList <Empleado> temp = null;
@@ -157,7 +157,7 @@ public class Empresa implements Serializable{
 	public static void setNumProyectos(int numProyectos) {
 		Empresa.numProyectos = numProyectos;
 	}
-	public static int getCodigo() {
+	/*public static int getCodigo() {
 		return codigo;
 	}
 
@@ -171,7 +171,7 @@ public class Empresa implements Serializable{
 
 	public static void setNombre(String nombre) {
 		Empresa.nombre = nombre;
-	}
+	}*/
 	
 	public static User getLoginUser() {
 		return loginUser;
@@ -181,7 +181,7 @@ public class Empresa implements Serializable{
 		Empresa.loginUser = loginUser;
 	}
 
-	public static Date getInicio() {
+/*	public static Date getInicio() {
 		return inicio;
 	}
 
@@ -204,8 +204,8 @@ public class Empresa implements Serializable{
 	public static void setTemp(ArrayList<Empleado> temp) {
 		Empresa.temp = temp;
 	}
-
-	public static Proyecto getPtemp() {
+*/
+	/*public static Proyecto getPtemp() {
 		return ptemp;
 	}
 
@@ -230,7 +230,7 @@ public class Empresa implements Serializable{
 	}
 	public static void setEnable(Boolean enable) {
 		Empresa.enable = enable;
-	}
+	}*/
 	public void insertarEmpleado(Empleado emp) {
 		this.empleados.add(emp);
 	}
@@ -315,6 +315,8 @@ public class Empresa implements Serializable{
 	}
 	
 	public ArrayList<Empleado> buscarEmpleadoPorLenguaje(String lenguaje) {
+		String selectSql = "select E.cedula, E.nombre, P.nombre from Empleado as E inner join Puesto as P on E.idPuesto = P.idPuesto inner join EmpleadoLenguaje as EL on E.cedula = EL.cedula inner join Lenguaje as L on EL.idLenguaje = L.idLenguaje  where L.nombre = '"+lenguaje+"'";
+		ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
 		Empleado emp = null;
 		ArrayList<Empleado> empA = new ArrayList<Empleado>();
 		Programador pro = null;
@@ -346,13 +348,14 @@ public class Empresa implements Serializable{
 		return true;
 	}
 	public boolean checkUserData(String nombreUsuario, String passwordUsuario) {
-		boolean result= false;
 		String selectSql = "SELECT U.codigo,U.nombre,U.contraseña,T.nombre  from Usuario as U inner join TipoUsuario as T on U.idTipoUsuario = T.idTipoUsuario where U.nombre='"+nombreUsuario+"' and U.contraseña='"+passwordUsuario+"';";
-		ResultSet resultSet = null;
+		ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
+		boolean result= false;
+		//ResultSet resultSet = null;
 		User usuario = null;
 		try {
-			Statement statement = SQLConnection.getConnection().createStatement();
-			resultSet = statement.executeQuery(selectSql);
+			/*Statement statement = SQLConnection.getConnection().createStatement();
+			resultSet = statement.executeQuery(selectSql);*/
 			if(!resultSet.isBeforeFirst()) {
 				result = false;
 			} else {

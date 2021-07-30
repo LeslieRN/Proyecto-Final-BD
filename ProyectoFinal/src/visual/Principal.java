@@ -71,7 +71,7 @@ public class Principal extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -82,7 +82,7 @@ public class Principal extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -245,13 +245,13 @@ public class Principal extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		/*if(Empresa.getLoginUser().getTipo().equalsIgnoreCase("Secretario")) {
+		if(Empresa.getLoginUser().getTipo().equalsIgnoreCase("Secretario")) {
 			menuCEmpleado.setEnabled(false);
 			menuMProyecto.setEnabled(false);
 			menuCProyecto.setEnabled(false);
 			menuCUsuarios.setEnabled(false);
 			menuAdministrador.setEnabled(false);
-		}*/
+		}
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(255, 255, 255));
 		contentPane.add(panel, BorderLayout.CENTER);

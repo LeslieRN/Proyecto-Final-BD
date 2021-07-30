@@ -44,6 +44,7 @@ public class Login extends JDialog {
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				Empresa.setConexion();
 				/*FileInputStream empresa;
 				FileOutputStream empresa2;
 				ObjectInputStream empresaRead;

@@ -25,6 +25,7 @@ public class Conexion {
 	public void iniciarConexion() {
 		try {
 			this.connection = DriverManager.getConnection(connectionUrl);
+			System.out.println("Connection started!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
