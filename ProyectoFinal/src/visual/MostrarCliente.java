@@ -88,7 +88,7 @@ public class MostrarCliente extends JDialog {
 	private void cargarClientes() {
 		
 		// PENDIENTE
-		ResultSet resultSet = Empresa.getConexion().getResultSet("select * from Cliente");
+		/*ResultSet resultSet = Empresa.getConexion().getResultSet("select * from Cliente");
 		int i;
 		rows = new Object[model.getColumnCount()];
 		model.setRowCount(0);
@@ -103,6 +103,6 @@ public class MostrarCliente extends JDialog {
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 }
