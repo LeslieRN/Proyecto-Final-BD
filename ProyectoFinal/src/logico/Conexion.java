@@ -7,7 +7,6 @@ import java.sql.Statement;
 
 public class Conexion {
 	
-	private String query;
 	private String connectionUrl = "jdbc:sqlserver://192.168.77.24:1433;"
 			+ "database=proyectoFinal_grupo1;"
 			+ "user=dperalta;"
@@ -18,13 +17,9 @@ public class Conexion {
 	private ResultSet resultSet = null;
 	private Connection connection = null;
 	
-	public Conexion(String query) {
+	public Conexion() {
 		super();
-		this.query = query;
-	}
-
-	public String getQuery() {
-		return query;
+		iniciarConexion();
 	}
 
 	public void iniciarConexion() {
@@ -42,12 +37,8 @@ public class Conexion {
 			e.printStackTrace();
 		}
 	}
-	
-	public void setQuery(String query) {
-		this.query = query;
-	}
 
-	public ResultSet getResultSet() {
+	public ResultSet getResultSet(String query) {
 		Statement statement;
 		try {
 			statement = connection.createStatement();

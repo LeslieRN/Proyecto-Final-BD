@@ -19,7 +19,6 @@ public class Cliente implements Serializable{
 		this.direccion = direccion;
 		this.telefono = telefono;
 		this.contratos = new ArrayList<Contrato>();
-		
 	}
 	public String getCedula() {
 		return cedula;
@@ -45,7 +44,6 @@ public class Cliente implements Serializable{
 	public void setContratos(ArrayList<Contrato> contratos) {
 		this.contratos = contratos;
 	}
-	
 	public int getCantiProyectos() {
 		return cantiProyectos;
 	}

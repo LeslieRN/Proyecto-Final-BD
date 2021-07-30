@@ -35,10 +35,7 @@ public class Login extends JDialog {
 	private JTextField txtPassword;
 	private JButton btnIngresar;
 
-	/**
-	 * Launch the application.
-	 */
-	//hola
+	
 	public static void main(String[] args) {
 
 		EventQueue.invokeLater(new Runnable() {
@@ -51,6 +48,13 @@ public class Login extends JDialog {
 					empresa = new FileInputStream ("empresa.dat");
 					empresaRead = new ObjectInputStream(empresa);
 					Empresa temp = (Empresa)empresaRead.readObject();
+					
+					
+					// CONEXION
+					Empresa.setConexion();
+					// CONEXION
+					
+					
 					Empresa.setEmpresa(temp);
 					empresa.close();
 					empresaRead.close();

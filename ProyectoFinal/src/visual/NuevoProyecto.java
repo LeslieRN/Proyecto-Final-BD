@@ -127,9 +127,7 @@ public class NuevoProyecto extends JDialog {
 				}catch(Exception e1) {
 					JOptionPane.showMessageDialog(null, "Ha ocurrido un error", "Aviso", JOptionPane.ERROR_MESSAGE);
 					e1.printStackTrace();
-
 				}
-
 			}
 		});
 		btnSiguiente.setBorderPainted(false);

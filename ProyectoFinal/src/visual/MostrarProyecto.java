@@ -52,22 +52,6 @@ public class MostrarProyecto extends JDialog {
 	private JButton btnProrroga;
 	private JButton btnFinalizar;
 
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		try {
-			MostrarProyecto dialog = new MostrarProyecto();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
-
-	/**
-	 * Create the dialog.
-	 */
 	public MostrarProyecto() {
 		setBounds(100, 100, 670, 462);
 		setLocationRelativeTo(null);
