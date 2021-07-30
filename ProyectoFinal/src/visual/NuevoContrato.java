@@ -64,9 +64,10 @@ public class NuevoContrato extends JDialog {
 		setBounds(100, 100, 650, 420);
 		setLocationRelativeTo(null);
 		/* Calcular numero de dias entre las fecha inicial e final del contrato */
+		/*System.out.println("Esta es la fecga"+strDate);
 		DateFormat dtf = new SimpleDateFormat("dd MM yyyy");
-		String inicio = dtf.format(fechaInicio);
-		String finalFecha = dtf.format(fechaFin);
+		String inicio = dtf.format(strDate);
+		String finalFecha = dtf.format(strDate2);
 		DateTimeFormatter dtF = DateTimeFormatter.ofPattern("dd MM yyyy");
 		try {
 			LocalDate fecha1 = LocalDate.parse(inicio, dtF);
@@ -74,7 +75,7 @@ public class NuevoContrato extends JDialog {
 			daysBetween = ChronoUnit.DAYS.between(fecha1, fecha2);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		/**/
 		/*this.montoTotalContrato = Empresa.getInstance().calcularMontoTotalContrato(daysBetween, Empresa.getTemp());*/
 		getContentPane().setLayout(new BorderLayout());
@@ -189,7 +190,7 @@ public class NuevoContrato extends JDialog {
 				public void actionPerformed(ActionEvent arg0) {
 
 					String cedula = txtCedula.getText();
-					Cliente c = buscarCliente(cedula);
+					Cliente c = Empresa.getInstance().buscarCliente(cedula);
 					cExistente = c;
 
 					if(txtCedula.getText().isEmpty()) {
@@ -310,7 +311,10 @@ public class NuevoContrato extends JDialog {
 							JOptionPane.showMessageDialog(null,  "No es posible completar la accion, el cliente cuenta con la cantidad maxima de proyectos activos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
 						} else {
 							Cliente cli = new Cliente(cedula, nombre, direccion, telefono);
-							Proyecto p = new Proyecto(nombreP, tipo, true, lenguaje, false, fechaInicio, fechaFin, fechaFin, temporal_Empleado);
+							SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");  
+						    String strDate= formatter.format(fechaInicio);
+						    String strDate2= formatter.format(fechaFin);  
+							Proyecto p = new Proyecto(nombreP, tipo, 1, lenguaje, 0,strDate, strDate2, strDate2, temporal_Empleado);
 							Contrato c = new Contrato(idContrato, cedula, nombreP, cli, p, montoTotalContrato);
 
 							if(cExiste == true) {
@@ -326,13 +330,10 @@ public class NuevoContrato extends JDialog {
 
 							}
 							Empresa.getInstance().insertarContrato(c);
-							Empresa.getInstance().insertarProyecto(p);
+							Empresa.getInstance().insertarProyecto(p, c);
 							JOptionPane.showMessageDialog(null,  "Se ha agregado un nuevo proyecto satisfactoriamente ", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 							dispose();
 						}
-
-						/*System.out.println(Empresa.getInstance().getClientes().get(0).getNombre());*/
-						/*Principal.cargarProyectosEnFechaEntrega();*/
 
 					}else {
 
@@ -350,24 +351,7 @@ public class NuevoContrato extends JDialog {
 		btnFinalizar.setBounds(522, 0, 89, 45);
 		panel.add(btnFinalizar);
 	}
-
-	protected Cliente buscarCliente(String cedula) {
-		Cliente c = null;
-		ArrayList <Cliente> aux = Empresa.getInstance().getClientes();
-
-		for(Cliente cl: aux) {
-			if(cl.getCedula().equalsIgnoreCase(cedula)) {
-				c = cl;
-				return c;
-			}
-		}
-		return c;
-
-	}
-
 	public void clienteNuevoPoyecto(Cliente c, Proyecto p, Contrato co) {
-
-		//Empresa.getInstance().insertarProyecto(p);
 
 		for(Cliente cli : Empresa.getInstance().getClientes()) {
 

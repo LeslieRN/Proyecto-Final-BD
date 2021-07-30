@@ -361,7 +361,7 @@ public class Principal extends JFrame {
         DefaultCategoryDataset line_chart_dataset = new DefaultCategoryDataset();
         String meses[] = {"Ene.", "Feb.", "Mar.", "Abr.", "May.", "Jun.", "Jul.", "Ago.", "Sep.", "Oct.", "Nov.", "Dic."};
         for(int i = 1; i <= 12; i++) {
-        	line_chart_dataset.addValue(Empresa.getInstance().calcularGananciasPorMes(i), "ganacias", meses[i-1]);
+        	//line_chart_dataset.addValue(Empresa.getInstance().calcularGananciasPorMes(i), "ganacias", meses[i-1]);
         }
 
 
@@ -395,7 +395,7 @@ public class Principal extends JFrame {
 		String finalFecha = "";
 		for(int i = 0; i < Empresa.getInstance().getContratos().size(); i++) {
 			empresa = dtf.format(Empresa.getInstance().getContratos().get(i).getProyecto().getFechaEntrega());
-			if(empresa.equalsIgnoreCase(dtf.format(date)) && Empresa.getInstance().getContratos().get(i).getProyecto().getEstado() == true) {
+			if(empresa.equalsIgnoreCase(dtf.format(date)) && Empresa.getInstance().getContratos().get(i).getProyecto().getEstado() == 1) {
 				rows[0] = Empresa.getInstance().getContratos().get(i).getNumeroContrato();
 				rows[1] = Empresa.getInstance().getContratos().get(i).getNombreProyecto();
 				rows[2] = Empresa.getInstance().getContratos().get(i).getCedulaCliente();

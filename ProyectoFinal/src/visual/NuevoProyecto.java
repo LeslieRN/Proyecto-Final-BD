@@ -25,6 +25,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -50,23 +52,6 @@ public class NuevoProyecto extends JDialog {
 	private static JSpinner spnFinicio;
 	private static JComboBox cbxTipo;
 
-	/**
-	 * Launch the application.
-	 */
-	//hola
-	/*public static void main(String[] args) {
-		try {
-			NuevoProyecto dialog = new NuevoProyecto();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
-
-	/**
-	 * Create the dialog.S
-	 */
 	public NuevoProyecto(String codigo, String nombre, Date fechaInicio,Date fechaFin,String tipo,String lenguaje,ArrayList<Empleado> temp_emp) {
 		setBounds(100, 100, 584, 451);
 		setLocationRelativeTo(null);
@@ -103,23 +88,10 @@ public class NuevoProyecto extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if(informacionLlena()) {
-						/*Empresa.setCodigo(Integer.valueOf(txtCodigo.getText()));
-						Empresa.setNombre(txtNombre.getText());
-						Empresa.setInicio((Date) spnFinicio.getValue());
-						Empresa.setFin((Date) spnFentrega.getValue());
-						Empresa.setTipo(cbxTipo.getSelectedIndex());
-						Empresa.setLenguaje(cmbLenguajes.getSelectedIndex());
-
-						/**
-						 * Agregando arrayList de Empleado
-						 * */
-						/*Empresa.setTemp(insertarEmpleadoProyecto(model));*/
 						ArrayList<Empleado> temporal_Empleado = insertarEmpleadoProyecto(model);
-						/**
-						 * Te recomiendo que agregues esa parte ..... 
-						 * */
 						setVisible(false);
-						NuevoContrato cont = new NuevoContrato(String.valueOf(txtCodigo.getText()), txtNombre.getText(), (Date) spnFinicio.getValue(),(Date) spnFentrega.getValue(),String.valueOf(cbxTipo.getSelectedIndex()),String.valueOf(cmbLenguajes.getSelectedIndex()),temporal_Empleado);
+					    
+						NuevoContrato cont = new NuevoContrato(String.valueOf(txtCodigo.getText()), txtNombre.getText(), (Date)spnFinicio.getValue(), (Date)spnFentrega.getValue(),String.valueOf(cbxTipo.getSelectedItem()),String.valueOf(cmbLenguajes.getSelectedItem()),temporal_Empleado);
 						cont.setModal(true);
 						cont.setVisible(true);
 					}else {
@@ -230,7 +202,6 @@ public class NuevoProyecto extends JDialog {
 			cmbLenguajes = new JComboBox();
 			cmbLenguajes.setBackground(new Color(255, 255, 255));
 			cmbLenguajes.setModel(modelComboLanguage);
-			//cmbLenguajes.setModel(new DefaultComboBoxModel(new String[] {"Python", "C#", "JavaScript", "Ruby", "C++", "C", "Java", "Angular"}));
 			cmbLenguajes.setBounds(345, 116, 86, 20);
 			panel.add(cmbLenguajes);
 
@@ -272,17 +243,16 @@ public class NuevoProyecto extends JDialog {
 			formatterEntrega.setOverwriteMode(true);
 			panel.add(spnFentrega);
 		}
-
+		cargarDatosComboboxLenguaje();
 		if(codigo != null) {
 			txtCodigo.setText(codigo);
 			txtNombre.setText(nombre);
 			spnFinicio.setValue(fechaInicio);
-			cbxTipo.setSelectedIndex(Integer.parseInt(tipo));
-			cmbLenguajes.setSelectedIndex(Integer.parseInt(lenguaje));
+			cbxTipo.setSelectedItem(tipo);
+			cmbLenguajes.setSelectedItem(lenguaje);
 			spnFentrega.setValue(fechaFin);
 			cargarDatosTabla(temp_emp);
 		}
-		cargarDatosComboboxLenguaje();
 	}
 	public static void agregarLenguajeProgramador(DefaultTableModel modelProyecto) {
 		String[] empleados = {"Cedula", "Nombre", "Puesto"};
@@ -321,7 +291,7 @@ public class NuevoProyecto extends JDialog {
 			return arrayEmpleados;
 		}
 		for(int i = 0; i < model.getRowCount(); i++) {
-			empProv = Empresa.getInstance().buscarEmpleado(model.getValueAt(i, 0).toString());
+			empProv = Empresa.getInstance().buscarEmpleado(Integer.parseInt(model.getValueAt(i, 0).toString()));
 			arrayEmpleados.add(empProv);
 			empProv = null;
 		}
@@ -350,6 +320,7 @@ public class NuevoProyecto extends JDialog {
 		for(int i = 0; i < temp_emp.size(); i++) {
 			rows[0] = temp_emp.get(i).getCedula();
 			rows[1] = temp_emp.get(i).getNombre();
+			//modificar
 			rows[2] = temp_emp.get(i).getClass().getSimpleName().toString();
 			model.addRow(rows);
 		}
@@ -371,8 +342,7 @@ public class NuevoProyecto extends JDialog {
 	}
 
 	private boolean informacionLlena() {
-		/*tblEmpleadosProyecto.getRowCount() == 0 */
-		if(txtCodigo.getText().isEmpty() || txtNombre.getText().isEmpty() || spnFinicio.getValue().toString().isEmpty() || spnFentrega.getValue().toString().isEmpty()) {
+		if(txtCodigo.getText().isEmpty() || txtNombre.getText().isEmpty() || tblEmpleadosProyecto.getRowCount() == 0  ||spnFinicio.getValue().toString().isEmpty() || spnFentrega.getValue().toString().isEmpty()) {
 			return false;
 		} 
 		return true;

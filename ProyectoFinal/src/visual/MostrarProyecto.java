@@ -147,11 +147,11 @@ public class MostrarProyecto extends JDialog {
 				btnFinalizar = new JButton("Finalizar");
 				btnFinalizar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						Proyecto pro = Empresa.getInstance().buscarProyecto(proyectos[0]);
+						/*Proyecto pro = Empresa.getInstance().buscarProyecto(proyectos[0]);
 						float montoTotal = 0;
 						if(pro != null) {
 							Contrato cont = Empresa.getInstance().buscarContratoProyecto(pro.getNombre());
-							pro.setEstado(false);
+							pro.setEstado(0);
 							pro.setFechaTerminacionReal(new Date());
 							if(pro.getFechaEntrega().before(pro.getFechaTerminacionReal())) {
 								montoTotal = cont.getMontoTotal();
@@ -168,7 +168,7 @@ public class MostrarProyecto extends JDialog {
 							}
 							JOptionPane.showMessageDialog(null, "Proyecto Finalizado con exito", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 							dispose();
-						}
+						}*/
 					}
 				});
 				btnFinalizar.setEnabled(false);
@@ -201,11 +201,11 @@ public class MostrarProyecto extends JDialog {
 		model.setRowCount(0);
 		for(int i = 0; i < Empresa.getInstance().getProyectos().size(); i++) {
 			if(selectedItem.equalsIgnoreCase("En Proceso")) {
-				if(Empresa.getInstance().getProyectos().get(i).getEstado() == true) {
+				if(Empresa.getInstance().getProyectos().get(i).getEstado() == 1) {
 					model.addRow(insertInRow(i));
 				}
 			} else if (selectedItem.equalsIgnoreCase("Finalizado")) {
-				if(Empresa.getInstance().getProyectos().get(i).getEstado() == false) {
+				if(Empresa.getInstance().getProyectos().get(i).getEstado() == 0) {
 					model.addRow(insertInRow(i));
 				}
 			}else if (selectedItem.equalsIgnoreCase("Todo")) {

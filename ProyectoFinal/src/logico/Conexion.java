@@ -49,4 +49,16 @@ public class Conexion {
 		}
 		return resultSet;
 	}
+	public void executeInsert(String query) {
+		Statement statement;
+		try {
+			statement = connection.createStatement();
+			int row = statement.executeUpdate(query);
+			if (row>0) {
+				System.out.println("Se ha insertado un cliente nuevo");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

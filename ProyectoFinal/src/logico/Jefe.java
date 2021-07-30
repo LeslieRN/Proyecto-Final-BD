@@ -7,9 +7,8 @@ public class Jefe extends Empleado implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int cantiTrabajadores;
 	
-	public Jefe(String cedula, String nombre, String apellido, String direccion,String telefono, String sexo, float salario,
-			String nombreProyecto, String evaluacion, float precioHora, int cantiTrabajadores) {
-		super(cedula, nombre, apellido, direccion,telefono, sexo, salario, nombreProyecto, evaluacion, precioHora);
+	public Jefe(String cedula, String nombre, String apellido, String direccion,String telefono, String sexo, float salario, String evaluacion, float precioHora, int cantiTrabajadores) {
+		super(cedula, nombre, apellido, direccion,telefono, sexo, salario, evaluacion, precioHora);
 		
 		this.cantiTrabajadores = cantiTrabajadores;
 	}

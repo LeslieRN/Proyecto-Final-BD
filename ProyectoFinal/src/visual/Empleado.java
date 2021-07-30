@@ -395,23 +395,23 @@ public class Empleado extends JDialog {
 						if(tabbedPane.getSelectedIndex() == 0) {
 
 							aux = Integer.valueOf(txtTrabajadoresEmp.getText());
-							emp = new Jefe(txtCedulaEmp.getText(), txtNombreEmp.getText(), txtApellido.getText(), txtDireccionEmp.getText(), txtTelefonoEmp.getText(), auxRadio, Float.valueOf(spnSalarioHora.getValue().toString()), "","",Float.valueOf(0), aux);
+							emp = new Jefe(txtCedulaEmp.getText(), txtNombreEmp.getText(), txtApellido.getText(), txtDireccionEmp.getText(), txtTelefonoEmp.getText(), auxRadio, Float.valueOf(spnSalarioHora.getValue().toString()),"",Float.valueOf(0), aux);
 							Empresa.getInstance().insertarEmpleado(emp);
 
 						} else if (tabbedPane.getSelectedIndex() == 1) {
 
 							lenguajeProg = collectLanguages();
-							emp2 = new Programador(txtCedulaEmp.getText(), txtNombreEmp.getText(), txtApellido.getText(), txtDireccionEmp.getText(), txtTelefonoEmp.getText(), auxRadio, Float.valueOf(spnSalarioHora.getValue().toString()), "","",Float.valueOf(0), lenguajeProg);
+							emp2 = new Programador(txtCedulaEmp.getText(), txtNombreEmp.getText(), txtApellido.getText(), txtDireccionEmp.getText(), txtTelefonoEmp.getText(), auxRadio, Float.valueOf(spnSalarioHora.getValue().toString()),"",Float.valueOf(0), lenguajeProg);
 							Empresa.getInstance().insertarEmpleado(emp2);
 
 						} else if (tabbedPane.getSelectedIndex() == 2) {
 							auxText = Integer.valueOf(txtReunionEmp.getText().toString());
-							emp4 = new Planificador(txtCedulaEmp.getText(), txtNombreEmp.getText(), txtApellido.getText(), txtDireccionEmp.getText(), txtTelefonoEmp.getText(), auxRadio, Float.valueOf(spnSalarioHora.getValue().toString()), "","",Float.valueOf(0), auxText);
+							emp4 = new Planificador(txtCedulaEmp.getText(), txtNombreEmp.getText(), txtApellido.getText(), txtDireccionEmp.getText(), txtTelefonoEmp.getText(), auxRadio, Float.valueOf(spnSalarioHora.getValue().toString()),"",Float.valueOf(0), auxText);
 							Empresa.getInstance().insertarEmpleado(emp4);
 
 						} else if(tabbedPane.getSelectedIndex() == 3){
 
-							emp3 = new Disenador(txtCedulaEmp.getText(), txtNombreEmp.getText(), txtApellido.getText(), txtDireccionEmp.getText(), txtTelefonoEmp.getText(), auxRadio, Float.valueOf(spnSalarioHora.getValue().toString()), "","",Float.valueOf(0), Integer.valueOf(spnAnExperiencia.getValue().toString()));
+							emp3 = new Disenador(txtCedulaEmp.getText(), txtNombreEmp.getText(), txtApellido.getText(), txtDireccionEmp.getText(), txtTelefonoEmp.getText(), auxRadio, Float.valueOf(spnSalarioHora.getValue().toString()),"",Float.valueOf(0), Integer.valueOf(spnAnExperiencia.getValue().toString()));
 							Empresa.getInstance().insertarEmpleado(emp3);
 						}
 						JOptionPane.showMessageDialog(null, "Operacion Satisfactoria", "Informacion", JOptionPane.INFORMATION_MESSAGE);

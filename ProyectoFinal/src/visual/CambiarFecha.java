@@ -112,8 +112,8 @@ public class CambiarFecha extends JDialog {
 							Date fechaEntregaA;
 							try {
 								fechaEntregaA = new SimpleDateFormat("dd/MM/yyyy").parse(txtFechaEntregaA.getText());
-								pro.setFechaEntrega(fechaEntregaA);
-								pro.setExtendido(true);
+								//pro.setFechaEntrega(fechaEntregaA);
+								pro.setExtendido(1);
 								
 							} catch (ParseException e) {
 								// TODO Auto-generated catch block

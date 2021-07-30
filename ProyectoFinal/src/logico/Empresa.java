@@ -1,14 +1,10 @@
 package logico;
 
-import java.sql.Statement;
 import java.io.Serializable;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 
-import javax.swing.table.DefaultTableModel;
 
 public class Empresa implements Serializable{
 
@@ -26,21 +22,14 @@ public class Empresa implements Serializable{
 	private static int numContratos = 1;
 	private static int numEmpleados = 1;
 	private static int numProyectos = 1;
-	/*private static int codigo = 0;
-	private static int tipo = 0;
-	private static int lenguaje = 0;
-	private static String nombre = null;
-	private static Date inicio = null;
-	private static Date fin = null;*/
-	
-	
+
+
 	private static ArrayList <Empleado> temp = null;
-	private static Proyecto ptemp = null;
-	private static Boolean enable = false;
-	
+
+
 	// PELIGROSO NO TOCAR
 	private static Conexion conexion = null;
-	
+
 	public Empresa() {
 		super();
 		this.clientes = new ArrayList <Cliente>();
@@ -49,16 +38,16 @@ public class Empresa implements Serializable{
 		this.proyectos = new ArrayList <Proyecto>();
 		this.usuarios = new ArrayList<User>();
 	}
-	
+
 	public static Empresa getInstance() {
 		if(empresa == null) {
 			empresa = new Empresa();
 		}
 		return empresa;
-		
+
 	}
 
-	
+
 	// CONEXION PELIGROSO NO TOCAR
 
 	public static Conexion getConexion() {
@@ -68,17 +57,17 @@ public class Empresa implements Serializable{
 	public static void setConexion() {
 		Empresa.conexion =  new Conexion();
 	}
-	
+
 	// CONEXION PELIGROSO NO TOCAR
-	
-	
-	
+
+
+
 	public ArrayList<Cliente> getClientes() {
-		
-		
-		
-		
-		
+
+
+
+
+
 		return clientes;
 	}
 
@@ -109,7 +98,7 @@ public class Empresa implements Serializable{
 	public void setProyectos(ArrayList<Proyecto> proyectos) {
 		this.proyectos = proyectos;
 	}
-	
+
 	public ArrayList<User> getUsuarios() {
 		return usuarios;
 	}
@@ -157,22 +146,7 @@ public class Empresa implements Serializable{
 	public static void setNumProyectos(int numProyectos) {
 		Empresa.numProyectos = numProyectos;
 	}
-	/*public static int getCodigo() {
-		return codigo;
-	}
 
-	public static void setCodigo(int codigo) {
-		Empresa.codigo = codigo;
-	}
-
-	public static String getNombre() {
-		return nombre;
-	}
-
-	public static void setNombre(String nombre) {
-		Empresa.nombre = nombre;
-	}*/
-	
 	public static User getLoginUser() {
 		return loginUser;
 	}
@@ -181,75 +155,55 @@ public class Empresa implements Serializable{
 		Empresa.loginUser = loginUser;
 	}
 
-/*	public static Date getInicio() {
-		return inicio;
-	}
-
-	public static void setInicio(Date inicio) {
-		Empresa.inicio = inicio;
-	}
-
-	public static Date getFin() {
-		return fin;
-	}
-
-	public static void setFin(Date fin) {
-		Empresa.fin = fin;
-	}
-
-	public static ArrayList<Empleado> getTemp() {
-		return temp;
-	}
-
-	public static void setTemp(ArrayList<Empleado> temp) {
-		Empresa.temp = temp;
-	}
-*/
-	/*public static Proyecto getPtemp() {
-		return ptemp;
-	}
-
-	public static void setPtemp(Proyecto ptemp) {
-		Empresa.ptemp = ptemp;
-	}
-
-	public static int getTipo() {
-		return tipo;
-	}
-	public static void setTipo(int tipo) {
-		Empresa.tipo = tipo;
-	}
-	public static int getLenguaje() {
-		return lenguaje;
-	}
-	public static void setLenguaje(int lenguaje) {
-		Empresa.lenguaje = lenguaje;
-	}
-	public static Boolean getEnable() {
-		return enable;
-	}
-	public static void setEnable(Boolean enable) {
-		Empresa.enable = enable;
-	}*/
 	public void insertarEmpleado(Empleado emp) {
 		this.empleados.add(emp);
 	}
-	
+
 	public void insertarContrato(Contrato cont) {
 		this.contratos.add(cont);
 		numContratos++;
 	}
-	
-	public void insertarProyecto(Proyecto pro) {
+
+	public void insertarProyecto(Proyecto pro, Contrato con) {
+		int idL = 0, idP = 0, idProyecto = 0;
+		String empProyectoSQL= "";
+		String idLenguaje = "SELECT idLenguaje FROM Lenguaje where nombre='"+pro.getLenguaje()+"';";
+		String idTipoProyecto = "SELECT id_TipoProyecto FROM TipoProyecto where nombre='"+pro.getTipo()+"';";
+		ResultSet resultSet = Empresa.getConexion().getResultSet(idLenguaje);
+		ResultSet resultSet2 = Empresa.getConexion().getResultSet(idTipoProyecto);
+		try {
+			while(resultSet.next() && resultSet2.next()) {
+				idL=resultSet.getInt(1);
+				idP=resultSet2.getInt(1);
+			}
+			/*Insertar en tabla de proyecto*/
+			String selectSql = "insert into Proyecto (numeroContrato, nombre, fechaIncio, fechaFin, fechaEntrega, estado, extendido, idLenguaje, id_TipoProyecto)"
+					+ "values('"+con.getNumeroContrato()+"','"+con.getNombreProyecto()+"', convert(date,'"+ pro.getFechaInicio() +"',111), convert(date,'"+pro.getFechaEntrega()+"',111), convert(date,'"+pro.getFechaTerminacionReal()+"', 111),"+pro.getEstado()+","+pro.getExtendido()+","+idL+","+idP+");";
+			Empresa.getConexion().executeInsert(selectSql);
+			String sqlSelectLast = "SELECT idProyecto FROM Proyecto where numeroContrato = "+con.getNumeroContrato()+";";
+			ResultSet resultSet3 = Empresa.getConexion().getResultSet(sqlSelectLast);
+
+			while(resultSet3.next()) {
+				idProyecto=resultSet3.getInt(1);
+			}
+			for(int i = 0; i < pro.getEmpleados().size(); i++) {
+				empProyectoSQL = "INSERT INTO ProyectoEmpleado values("+Integer.parseInt(pro.getEmpleados().get(i).getCedula())+", "+idProyecto+");";
+				Empresa.getConexion().executeInsert(empProyectoSQL);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		this.proyectos.add(pro);
 		numProyectos++;
 	}
-	
-	public void insertarCliente(Cliente cli) {
-		this.clientes.add(cli);
+
+	public void insertarCliente(Cliente cliente) {
+		String selectSql = "insert into Cliente "
+				+ "values('"+ cliente.getCedula() +"', '"+ cliente.getNombre()+"', '"+ cliente.getTelefono()+"', '"+cliente.getDireccion()+"');";
+		Empresa.getConexion().executeInsert(selectSql);
 		numClientes++;
 	}
-	
+
 	public boolean insetarUsuario(User user) {
 		if(checkSiExisteUser(user.getNombreUsuario())) {
 			this.usuarios.add(user);
@@ -258,17 +212,26 @@ public class Empresa implements Serializable{
 		return false;
 	}
 	public Cliente buscarCliente(String cedula) {
+		String selectSql = "select C.cedula,C.nombre,C.telefono, C.direccion, COUNT(Con.numeroContrato)  as cantidadContratos "
+				+ "from Cliente as C left join Contrato as Con "
+				+ "on C.cedula = Con.cedula "
+				+ "where C.cedula="+cedula+" "
+				+"group by  C.cedula,C.nombre,C.telefono, C.direccion;";
+		ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
 		Cliente cli = null;
-		for(Cliente aux: this.clientes) {
-			if(aux.getCedula().equalsIgnoreCase(cedula)) {
-				cli = aux;
-				return cli;
+		try {
+			while(resultSet.next()) {
+				cli = new Cliente(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4));
+				cli.setCantiProyectos(resultSet.getInt(5));
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return cli;
 	}
-	
-	
+
+
 	public Contrato buscarContrato(String codigo) {
 		Contrato cont = null;
 		for(Contrato aux: this.contratos) {
@@ -279,9 +242,9 @@ public class Empresa implements Serializable{
 		}
 		return cont;
 	}
-	
-	
-	
+
+
+
 	public Contrato buscarContratoProyecto(String codigo) {
 		Contrato cont = null;
 		for(Contrato aux: this.contratos) {
@@ -302,18 +265,23 @@ public class Empresa implements Serializable{
 		}
 		return pro;
 	}
-	
-	public Empleado buscarEmpleado(String cedula) {
+
+	public Empleado buscarEmpleado(int cedula) {
+		String selectSql = "select E.cedula, E.nombre, E.apellido, E.direccion, E.sexo, E.salario, E.evaluacion, E.precioHora, E.experiencia from Empleado as E where E.cedula = "+cedula+"";
+		ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
 		Empleado emp = null;
-		for(Empleado aux: this.empleados) {
-			if(aux.getCedula().equalsIgnoreCase(cedula)) {
-				emp = aux;
-				return emp;
+		try {
+			while(resultSet.next()) {
+				emp = new Disenador(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),resultSet.getString(4), " ",resultSet.getString(5),resultSet.getFloat(6), resultSet.getString(7), resultSet.getFloat(8), resultSet.getInt(9));
+				System.out.println("Encontrado!!!");
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return emp;
 	}
-	
+
 	public ArrayList<Empleado> buscarEmpleadoPorLenguaje(String lenguaje) {
 		String selectSql = "select E.cedula, E.nombre, P.nombre from Empleado as E inner join Puesto as P on E.idPuesto = P.idPuesto inner join EmpleadoLenguaje as EL on E.cedula = EL.cedula inner join Lenguaje as L on EL.idLenguaje = L.idLenguaje  where L.nombre = '"+lenguaje+"'";
 		ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
@@ -332,13 +300,7 @@ public class Empresa implements Serializable{
 		}
 		return empA;
 	}
-	
-	public void modificarNombreProyecto(Proyecto pro) {
-		String nombre = pro.getNombre();
-		for(Empleado aux: pro.getEmpleados()) {
-			aux.setNombreProyecto(nombre);
-		}
-	}
+
 	public boolean checkSiExisteUser(String usuario) {
 		for(User aux: this.usuarios) {
 			if(aux.getNombreUsuario().equalsIgnoreCase(usuario)) {
@@ -351,11 +313,8 @@ public class Empresa implements Serializable{
 		String selectSql = "SELECT U.codigo,U.nombre,U.contraseña,T.nombre  from Usuario as U inner join TipoUsuario as T on U.idTipoUsuario = T.idTipoUsuario where U.nombre='"+nombreUsuario+"' and U.contraseña='"+passwordUsuario+"';";
 		ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
 		boolean result= false;
-		//ResultSet resultSet = null;
 		User usuario = null;
 		try {
-			/*Statement statement = SQLConnection.getConnection().createStatement();
-			resultSet = statement.executeQuery(selectSql);*/
 			if(!resultSet.isBeforeFirst()) {
 				result = false;
 			} else {
@@ -369,7 +328,7 @@ public class Empresa implements Serializable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return result;
 	}
 	public float calcularMontoTotalContrato(long daysBetween, ArrayList<Empleado> emp) {
@@ -378,22 +337,22 @@ public class Empresa implements Serializable{
 			daysBetween = 1;
 		}
 		for(int i = 0; i < emp.size(); i++) {			
-			
+
 			total += emp.get(i).getSalario();						
 		}				
 		total = total * emp.size() * 8 * daysBetween;
 		total += (total*0.30);
 		return total;
 	}
-	public float calcularGananciasPorMes(int mes) {
+	/*public float calcularGananciasPorMes(int mes) {
 		float total = 0;
 		for(Contrato aux: this.contratos) {
 			int mesP = aux.getProyecto().getFechaTerminacionReal().getMonth();
-			if(aux.getProyecto().getEstado().equals(false) && mesP == mes) {
+			if(aux.getProyecto().getEstado() ==0 && mesP == mes) {
 				total += aux.getMontoTotal();
-				
+
 			}
 		}
 		return total;
-	}
+	}*/
 }

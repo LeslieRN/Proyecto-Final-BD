@@ -9,26 +9,25 @@ public class Proyecto implements Serializable{
 	private ArrayList <Empleado> empleados;
 	private String nombre;
 	private String tipo;
-	private Boolean estado;
+	private int estado;
 	private String lenguaje;
-	private Boolean extendido;
-	private Date fechaInicio;
-	private Date fechaEntrega;
-	private Date fechaTerminacionReal;
+	private int extendido;
+	private String fechaInicio;
+	private String fechaEntrega;
+	private String fechaTerminacionReal;
 	
-	public Proyecto(String nombre, String tipo, Boolean estado, String lenguaje, Boolean extendido,
-			Date fechaInicio, Date fechaEntrega, Date fechaTerminacionReal, ArrayList <Empleado> empleados) {
+	public Proyecto(String nombre, String tipo, int estado, String lenguaje, int extendido,
+			String fechaInicio2, String fechaFin, String fechaFin2, ArrayList <Empleado> empleados) {
 		super();
-		this.empleados =  empleados;
 		this.nombre = nombre;
 		this.tipo = tipo;
 		this.estado = estado;
 		this.lenguaje = lenguaje;
 		this.extendido = extendido;
-		this.fechaInicio = fechaInicio;
-		this.fechaEntrega = fechaEntrega;
-		this.fechaTerminacionReal = fechaTerminacionReal;
-		this.empleados = new ArrayList <Empleado>();
+		this.fechaInicio = fechaInicio2;
+		this.fechaEntrega = fechaFin;
+		this.fechaTerminacionReal = fechaFin2;
+		this.empleados = empleados;
 	}
 
 	public ArrayList<Empleado> getEmpleados() {
@@ -55,11 +54,11 @@ public class Proyecto implements Serializable{
 		this.tipo = tipo;
 	}
 
-	public Boolean getEstado() {
+	public int getEstado() {
 		return estado;
 	}
 
-	public void setEstado(Boolean estado) {
+	public void setEstado(int estado) {
 		this.estado = estado;
 	}
 
@@ -71,35 +70,35 @@ public class Proyecto implements Serializable{
 		this.lenguaje = lenguaje;
 	}
 
-	public Boolean getExtendido() {
+	public int getExtendido() {
 		return extendido;
 	}
 
-	public void setExtendido(Boolean extendido) {
+	public void setExtendido(int extendido) {
 		this.extendido = extendido;
 	}
 
-	public Date getFechaInicio() {
+	public String getFechaInicio() {
 		return fechaInicio;
 	}
 
-	public void setFechaInicio(Date fechaInicio) {
+	public void setFechaInicio(String fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
 
-	public Date getFechaEntrega() {
+	public String getFechaEntrega() {
 		return fechaEntrega;
 	}
 
-	public void setFechaEntrega(Date fechaEntrega) {
+	public void setFechaEntrega(String fechaEntrega) {
 		this.fechaEntrega = fechaEntrega;
 	}
 
-	public Date getFechaTerminacionReal() {
+	public String getFechaTerminacionReal() {
 		return fechaTerminacionReal;
 	}
 
-	public void setFechaTerminacionReal(Date fechaTerminacionReal) {
+	public void setFechaTerminacionReal(String fechaTerminacionReal) {
 		this.fechaTerminacionReal = fechaTerminacionReal;
 	}
 	
