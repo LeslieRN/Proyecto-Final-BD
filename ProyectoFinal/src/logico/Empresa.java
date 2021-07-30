@@ -1,6 +1,10 @@
 package logico;
 
+import java.sql.Statement;
 import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -328,13 +332,28 @@ public class Empresa implements Serializable{
 	}
 	
 	public boolean checkUserData(String nombreUsuario, String passwordUsuario) {
-		for(User aux: this.usuarios) {
-			if(aux.getNombreUsuario().equalsIgnoreCase(nombreUsuario) && aux.getPasswordUsuario().equalsIgnoreCase(passwordUsuario)) {
-				Empresa.loginUser = aux;
-				return true;
+		boolean result= false;
+		String selectSql = "SELECT U.codigo,U.nombre,U.contraseña,T.nombre  from Usuario as U inner join TipoUsuario as T on U.idTipoUsuario = T.idTipoUsuario where U.nombre='"+nombreUsuario+"' and U.contraseña='"+passwordUsuario+"';";
+		ResultSet resultSet = null;
+		User usuario = null;
+		try {
+			Statement statement = SQLConnection.getConnection().createStatement();
+			resultSet = statement.executeQuery(selectSql);
+			if(!resultSet.isBeforeFirst()) {
+				result = false;
+			} else {
+				while(resultSet.next()) {
+					usuario = new User(Integer.toString(resultSet.getInt(1)),resultSet.getString(2), resultSet.getString(3),resultSet.getString(4));
+				}
+				result = true;
+				Empresa.loginUser = usuario;
 			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		return false;
+		
+		return result;
 	}
 	
 	/*

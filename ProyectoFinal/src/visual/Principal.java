@@ -89,10 +89,10 @@ public class Principal extends JFrame {
 	 */
 	public Principal() {
 		//>setBounds(100, 100, 1016, 496);
-		addWindowListener(new WindowAdapter() {
+		/*addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				FileOutputStream empresa2;
+				ileOutputStream empresa2;
 				ObjectOutputStream empresaWrite;
 				try {
 					empresa2 = new  FileOutputStream("empresa.dat");
@@ -107,7 +107,7 @@ public class Principal extends JFrame {
 				}
 
 			}
-		});
+		});*/
 		dimension = super.getToolkit().getScreenSize();
 		super.setSize(dimension.width, dimension.height);
 		setLocationRelativeTo(null);

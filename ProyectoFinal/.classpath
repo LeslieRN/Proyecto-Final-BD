@@ -4,5 +4,6 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/jcommon-1.0.23.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.19.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Leslie Nicole/Desktop/University/2021-02/Database/sqljdbc_9.2/enu/mssql-jdbc-9.2.1.jre8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
