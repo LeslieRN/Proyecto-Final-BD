@@ -77,9 +77,7 @@ public class MostrarCliente extends JDialog {
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
-			
 		}
-		
 		cargarClientes();
 	}
 	

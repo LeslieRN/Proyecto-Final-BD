@@ -19,6 +19,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.awt.event.ActionListener;
@@ -33,23 +35,6 @@ public class MostrarContrato extends JDialog {
 	private static DefaultTableModel model;
 	private static Object[] rows;
 
-
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		try {
-			MostrarContrato dialog = new MostrarContrato();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
-
-	/**
-	 * Create the dialog.
-	 */
 	public MostrarContrato() {
 		setBounds(100, 100, 723, 422);
 		setLocationRelativeTo(null);
@@ -103,20 +88,24 @@ public class MostrarContrato extends JDialog {
 		cargarContratos();
 	}
 	private static void cargarContratos() {
+		
+		ResultSet resultSet = Empresa.getConexion().getResultSet("select CO.numeroContrato, CL.cedula, CL.nombre, PR.fechaIncio, PR.fechaEntrega, CO.montoTotal from (Contrato as CO inner join Cliente as CL on CO.cedula = CL.cedula) inner join Proyecto as PR on PR.numeroContrato = CO.numeroContrato");
+		
 		model.setRowCount(0);
 		rows = new Object[model.getColumnCount()];
-		DateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
-		String inicio ,finalFecha = "";
-		for(int i = 0; i < Empresa.getInstance().getContratos().size(); i++) {
-			rows[0] = Empresa.getInstance().getContratos().get(i).getNumeroContrato();
-			rows[1] = Empresa.getInstance().getContratos().get(i).getCedulaCliente();
-			rows[2] = Empresa.getInstance().getContratos().get(i).getCliente().getNombre();
-			inicio = dtf.format(Empresa.getInstance().getContratos().get(i).getProyecto().getFechaInicio());
-			finalFecha = dtf.format(Empresa.getInstance().getContratos().get(i).getProyecto().getFechaEntrega());
-			rows[3] = inicio;
-			rows[4] = finalFecha;
-			rows[5] = Empresa.getInstance().getContratos().get(i).getMontoTotal();
-			model.addRow(rows);
+		
+		try {
+			while(resultSet.next()) {
+				rows[0] = resultSet.getInt(1);
+				rows[1] = resultSet.getInt(2);
+				rows[2] = resultSet.getString(3);
+				rows[3] = resultSet.getDate(4);
+				rows[4] = resultSet.getDate(5);
+				rows[5] = resultSet.getInt(6);
+				model.addRow(rows);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		
 	}
