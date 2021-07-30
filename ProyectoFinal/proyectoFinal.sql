@@ -45,11 +45,6 @@ create table Puesto(
 	nombre varchar (50)
 );
 
-create table TipoProyecto(
-	idTipoProyecto int not null primary key identity(1,1),
-	nombre varchar (50)
-);
-
 create table Empleado (
 	cedula int not null primary key,
 	nombre varchar (50) not null,
@@ -80,14 +75,12 @@ create table Proyecto (
 	constraint FK_numeroContrato_Contrato foreign key (numeroContrato)
 	references Contrato(numeroContrato),
 	nombre varchar(50) not null,
+	tipoProyecto varchar(50),
 	fechaIncio date not null,
 	fechaFin date not null,
 	fechaEntrega date not null,
 	estado int not null,
 	extendido int not null,
-	idTipoProyecto int not null,
-	constraint FK_idTipoProyecto_TipoProyecto_Proyecto foreign key (idTipoProyecto)
-	references TipoProyecto(idTipoProyecto),
 	idLenguaje int not null,
 	constraint FK_idLenguaje_Lenguaje_Proyecto foreign key (idLenguaje)
 	references Lenguaje(idLenguaje),
@@ -115,3 +108,5 @@ create table Historial (
 /* QUERYS UTILIZADOS EN EL PROGRAMA */
 
 select TOP 1 E.cedula, E.nombre, E.apellido, E.precioHora, E.idPuesto from Empleado as E where E.cedula = 402130999
+
+select * from Cliente as CL inner join (Proyecto as PR inner join Contrato as CO on PR.numeroContrato = CO.numeroContrato) on c.cedula 

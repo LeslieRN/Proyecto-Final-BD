@@ -16,9 +16,7 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Color;
-import javax.swing.BoxLayout;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
@@ -86,23 +84,20 @@ public class MostrarCliente extends JDialog {
 	}
 	
 	private void cargarClientes() {
-		
-		// PENDIENTE
-		/*ResultSet resultSet = Empresa.getConexion().getResultSet("select * from Cliente");
-		int i;
+		ResultSet resultSet = Empresa.getConexion().getResultSet("select CL.cedula, CL.nombre, CL.telefono, CL.direccion, count(PR.idProyecto) as proyectosActivos from Cliente as CL inner join (Proyecto as PR inner join Contrato as CO on PR.numeroContrato = CO.numeroContrato) on CL.cedula = CO.cedula group by CL.cedula, CL.nombre, CL.telefono, CL.direccion");
 		rows = new Object[model.getColumnCount()];
 		model.setRowCount(0);
 		try {
 			while(resultSet.next()) {
-				rows[0] = Empresa.getInstance().getClientes().get(i).getCedula();
-				rows[1] = Empresa.getInstance().getClientes().get(i).getNombre();
-				rows[2] = Empresa.getInstance().getClientes().get(i).getTelefono();
-				rows[3] = Empresa.getInstance().getClientes().get(i).getDireccion();
-				rows[4] = Empresa.getInstance().getClientes().get(i).getCantiProyectos();
+				rows[0] = resultSet.getInt(1);
+				rows[1] = resultSet.getString(2);
+				rows[2] = resultSet.getString(3);
+				rows[3] = resultSet.getString(4);
+				rows[4] = resultSet.getInt(5);
 				model.addRow(rows);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}*/
+		}
 	}
 }

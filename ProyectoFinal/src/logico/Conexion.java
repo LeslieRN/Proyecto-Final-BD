@@ -25,7 +25,6 @@ public class Conexion {
 	public void iniciarConexion() {
 		try {
 			this.connection = DriverManager.getConnection(connectionUrl);
-			System.out.println("Connection started!");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -54,9 +53,6 @@ public class Conexion {
 		try {
 			statement = connection.createStatement();
 			int row = statement.executeUpdate(query);
-			if (row>0) {
-				System.out.println("Se ha insertado un cliente nuevo");
-			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
