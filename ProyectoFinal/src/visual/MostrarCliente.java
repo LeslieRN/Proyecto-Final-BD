@@ -11,6 +11,8 @@ import javax.swing.table.DefaultTableModel;
 
 import logico.Empresa;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import java.awt.Color;
@@ -29,22 +31,6 @@ public class MostrarCliente extends JDialog {
 	private DefaultTableModel model;
 	private Object[] rows;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			MostrarCliente dialog = new MostrarCliente();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
 	public MostrarCliente() {
 		setBounds(100, 100, 590, 467);
 		setLocationRelativeTo(null);
@@ -100,15 +86,23 @@ public class MostrarCliente extends JDialog {
 	}
 	
 	private void cargarClientes() {
+		
+		// PENDIENTE
+		ResultSet resultSet = Empresa.getConexion().getResultSet("select * from Cliente");
+		int i;
 		rows = new Object[model.getColumnCount()];
 		model.setRowCount(0);
-		for(int i = 0; i < Empresa.getInstance().getClientes().size() ; i++) {
-			rows[0] = Empresa.getInstance().getClientes().get(i).getCedula();
-			rows[1] = Empresa.getInstance().getClientes().get(i).getNombre();
-			rows[2] = Empresa.getInstance().getClientes().get(i).getTelefono();
-			rows[3] = Empresa.getInstance().getClientes().get(i).getDireccion();
-			rows[4] = Empresa.getInstance().getClientes().get(i).getCantiProyectos();
-			model.addRow(rows);
+		try {
+			while(resultSet.next()) {
+				rows[0] = Empresa.getInstance().getClientes().get(i).getCedula();
+				rows[1] = Empresa.getInstance().getClientes().get(i).getNombre();
+				rows[2] = Empresa.getInstance().getClientes().get(i).getTelefono();
+				rows[3] = Empresa.getInstance().getClientes().get(i).getDireccion();
+				rows[4] = Empresa.getInstance().getClientes().get(i).getCantiProyectos();
+				model.addRow(rows);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 }

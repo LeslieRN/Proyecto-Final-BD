@@ -60,23 +60,6 @@ public class NuevoContrato extends JDialog {
 	private long daysBetween;
 	private float montoTotalContrato;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			NuevoContrato dialog = new NuevoContrato();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
-	} 
-
-	/**
-	 * Create the dialog.
-	 * @param actionListener 
-	 */
 	public NuevoContrato() {
 		setBounds(100, 100, 650, 420);
 		setLocationRelativeTo(null);

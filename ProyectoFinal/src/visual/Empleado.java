@@ -12,8 +12,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.NumberFormatter;
 
-import com.sun.glass.ui.Pixels.Format;
-
 import logico.Disenador;
 import logico.Empresa;
 import logico.Jefe;
@@ -70,23 +68,6 @@ public class Empleado extends JDialog {
 	private JPanel panel_7;
 	private JFormattedTextField formattedTextField;
 
-	/**
-	 * Launch the application.
-	 */
-	//hola
-	/*public static void main(String[] args) {
-		try {
-			Empleado dialog = new Empleado();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
-
-	/**
-	 * Create the dialog.
-	 */
 	public Empleado() {
 		setBounds(100, 100, 684, 491);
 		setLocationRelativeTo(null);

@@ -11,6 +11,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import logico.Conexion;
 import logico.Disenador;
 import logico.Empresa;
 import logico.Jefe;
@@ -26,6 +27,8 @@ import javax.swing.JLabel;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
@@ -39,23 +42,6 @@ public class MostrarEmpleado extends JDialog {
 	private JButton btnCancelar;
 	private JComboBox cmbEmpleados;
 
-	/**
-	 * Launch the application.
-	 */
-	//hola
-	/*public static void main(String[] args) {
-		try {
-			MostrarEmpleado dialog = new MostrarEmpleado();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
-
-	/**
-	 * Create the dialog.
-	 */
 	public MostrarEmpleado() {
 		setBounds(100, 100, 590, 467);
 		setLocationRelativeTo(null);
@@ -122,48 +108,52 @@ public class MostrarEmpleado extends JDialog {
 		}
 		cargarEmpleados(cmbEmpleados.getSelectedItem().toString());
 	}
-	//remember to change it to public and static
+
 	public static void cargarEmpleados(String selectedItem) {
-		//rows = new Object[model.getColumnCount()];
+		
+		ResultSet resultSet = Empresa.getConexion().getResultSet("select * from Empleado");
+		
 		model.setRowCount(0);
-		for(int i = 0; i < Empresa.getInstance().getEmpleados().size(); i++) {
-			if(selectedItem.equalsIgnoreCase("Jefe")) {
-				if(Empresa.getInstance().getEmpleados().get(i) instanceof Jefe) {
-					model.addRow(insertInRow(i));
+		try {
+			while(resultSet.next()) {
+				if(selectedItem.equalsIgnoreCase("Jefe")) {
+					if(resultSet.getInt(10) == 4) {
+						model.addRow(insertInRow(resultSet.getInt(1)));
+					}
+				} else if (selectedItem.equalsIgnoreCase("Programador")) {
+					if(resultSet.getInt(10) == 2) {
+						model.addRow(insertInRow(resultSet.getInt(1)));
+					}
+				}else if (selectedItem.equalsIgnoreCase("Disenador")) {
+					if(resultSet.getInt(10) == 3) {
+						model.addRow(insertInRow(resultSet.getInt(1)));
+					}
+				} else if (selectedItem.equalsIgnoreCase("Planificador")) {
+					if(resultSet.getInt(10) == 1) {
+						model.addRow(insertInRow(resultSet.getInt(1)));
+					}
+				} else if (selectedItem.equalsIgnoreCase("Todo")) {
+					model.addRow(insertInRow(resultSet.getInt(1)));
 				}
-			} else if (selectedItem.equalsIgnoreCase("Programador")) {
-				if(Empresa.getInstance().getEmpleados().get(i) instanceof Programador) {
-					model.addRow(insertInRow(i));
-				}
-			}else if (selectedItem.equalsIgnoreCase("Disenador")) {
-				if(Empresa.getInstance().getEmpleados().get(i) instanceof Disenador) {
-					model.addRow(insertInRow(i));
-				}
-			} else if (selectedItem.equalsIgnoreCase("Planificador")) {
-				if(Empresa.getInstance().getEmpleados().get(i) instanceof Planificador) {
-					model.addRow(insertInRow(i));
-				}
-			} else if (selectedItem.equalsIgnoreCase("Todo")) {
-				model.addRow(insertInRow(i));
 			}
-			/*rows[0] = Empresa.getInstance().getEmpleados().get(i).getCedula();
-			rows[1] = Empresa.getInstance().getEmpleados().get(i).getNombre();
-			rows[2] = Empresa.getInstance().getEmpleados().get(i).getApellido();
-			rows[3] = Empresa.getInstance().getEmpleados().get(i).getSalario();
-			rows[4] = Empresa.getInstance().getEmpleados().get(i).getClass().getSimpleName();*/
-			//model.addRow(rows);
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 	
-	private static Object[] insertInRow(int index) {
+	private static Object[] insertInRow(int cedula) {
+		ResultSet resultSet = Empresa.getConexion().getResultSet("select E.cedula, E.nombre, E.apellido, E.precioHora, E.idPuesto from Empleado as E where E.cedula = " + cedula);
 		rows = new Object[model.getColumnCount()];
-		rows[0] = Empresa.getInstance().getEmpleados().get(index).getCedula();
-		rows[1] = Empresa.getInstance().getEmpleados().get(index).getNombre();
-		rows[2] = Empresa.getInstance().getEmpleados().get(index).getApellido();
-		rows[3] = Empresa.getInstance().getEmpleados().get(index).getSalario();
-		rows[4] = Empresa.getInstance().getEmpleados().get(index).getClass().getSimpleName();
-		
+		try {
+			resultSet.next();
+			rows[0] = resultSet.getInt(1);
+			rows[1] = resultSet.getString(2);
+			rows[2] = resultSet.getString(3);
+			rows[3] = resultSet.getString(4);
+			rows[4] = resultSet.getInt(5);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return rows;
-		
 	}
 }

@@ -18,8 +18,10 @@ public class Empresa implements Serializable{
 	private ArrayList <Empleado> empleados;
 	private ArrayList <Proyecto> proyectos;
 	private ArrayList<User> usuarios;
+
 	private static User loginUser;
 	private static Empresa empresa = null;
+
 	private static int numClientes = 1;
 	private static int numContratos = 1;
 	private static int numEmpleados = 1;
@@ -30,9 +32,14 @@ public class Empresa implements Serializable{
 	private static String nombre = null;
 	private static Date inicio = null;
 	private static Date fin = null;
+	
+	
 	private static ArrayList <Empleado> temp = null;
 	private static Proyecto ptemp = null;
 	private static Boolean enable = false;
+	
+	// PELIGROSO NO TOCAR
+	private static Conexion conexion = null;
 	
 	public Empresa() {
 		super();
@@ -45,15 +52,33 @@ public class Empresa implements Serializable{
 	
 	public static Empresa getInstance() {
 		if(empresa == null) {
-			
 			empresa = new Empresa();
 		}
-		
 		return empresa;
 		
 	}
 
+	
+	// CONEXION PELIGROSO NO TOCAR
+
+	public static Conexion getConexion() {
+		return conexion;
+	}
+
+	public static void setConexion() {
+		Empresa.conexion =  new Conexion();
+	}
+	
+	// CONEXION PELIGROSO NO TOCAR
+	
+	
+	
 	public ArrayList<Cliente> getClientes() {
+		
+		
+		
+		
+		
 		return clientes;
 	}
 
@@ -191,30 +216,21 @@ public class Empresa implements Serializable{
 	public static int getTipo() {
 		return tipo;
 	}
-
 	public static void setTipo(int tipo) {
 		Empresa.tipo = tipo;
 	}
-
 	public static int getLenguaje() {
 		return lenguaje;
 	}
-
 	public static void setLenguaje(int lenguaje) {
 		Empresa.lenguaje = lenguaje;
 	}
-
 	public static Boolean getEnable() {
 		return enable;
 	}
-
 	public static void setEnable(Boolean enable) {
 		Empresa.enable = enable;
 	}
-
-	/**
-	 * Funciones insertar
-	 * */
 	public void insertarEmpleado(Empleado emp) {
 		this.empleados.add(emp);
 	}
@@ -241,10 +257,6 @@ public class Empresa implements Serializable{
 		}
 		return false;
 	}
-	/**
-	 * Debo de probar las funciones de buscar y modificarNombreProyecto lo haré mañana 26/3/21
-	 * Att: Tu compañera :3
-	 * */
 	public Cliente buscarCliente(String cedula) {
 		Cliente cli = null;
 		for(Cliente aux: this.clientes) {
@@ -255,6 +267,8 @@ public class Empresa implements Serializable{
 		}
 		return cli;
 	}
+	
+	
 	public Contrato buscarContrato(String codigo) {
 		Contrato cont = null;
 		for(Contrato aux: this.contratos) {
@@ -265,6 +279,8 @@ public class Empresa implements Serializable{
 		}
 		return cont;
 	}
+	
+	
 	
 	public Contrato buscarContratoProyecto(String codigo) {
 		Contrato cont = null;
@@ -321,7 +337,6 @@ public class Empresa implements Serializable{
 			aux.setNombreProyecto(nombre);
 		}
 	}
-	
 	public boolean checkSiExisteUser(String usuario) {
 		for(User aux: this.usuarios) {
 			if(aux.getNombreUsuario().equalsIgnoreCase(usuario)) {
@@ -330,7 +345,6 @@ public class Empresa implements Serializable{
 		}
 		return true;
 	}
-	
 	public boolean checkUserData(String nombreUsuario, String passwordUsuario) {
 		boolean result= false;
 		String selectSql = "SELECT U.codigo,U.nombre,U.contraseña,T.nombre  from Usuario as U inner join TipoUsuario as T on U.idTipoUsuario = T.idTipoUsuario where U.nombre='"+nombreUsuario+"' and U.contraseña='"+passwordUsuario+"';";
@@ -355,12 +369,6 @@ public class Empresa implements Serializable{
 		
 		return result;
 	}
-	
-	/*
-	 * cantidad de personas * el precio por hora de cada persona*8 horas de trabajo que tiene un día* la cantidad de días del proyecto 
-	 * eso es el costo ahora a ese costo hay que sumarle un 30% de ganancia
-	 * */
-	
 	public float calcularMontoTotalContrato(long daysBetween, ArrayList<Empleado> emp) {
 		float total = 0;
 		if(daysBetween == 0 ) {
@@ -371,8 +379,6 @@ public class Empresa implements Serializable{
 			total += emp.get(i).getSalario();						
 		}				
 		total = total * emp.size() * 8 * daysBetween;
-		
-		//ganancia de 30 %
 		total += (total*0.30);
 		return total;
 	}
@@ -387,5 +393,4 @@ public class Empresa implements Serializable{
 		}
 		return total;
 	}
-	
 }
