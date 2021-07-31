@@ -244,7 +244,20 @@ public class Empresa implements Serializable{
 		}
 		return pro;
 	}
-
+	
+	public int buscarCantidadProyectos() {
+		int cantidad = 0;
+		ResultSet resultSet = Empresa.getConexion().getResultSet("select count(*) from Proyecto");
+		try {
+			while(resultSet.next()) {
+				cantidad = resultSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return (cantidad+=1); 
+	}
 	public Empleado buscarEmpleado(int cedula) {
 		String selectSql = "select E.cedula, E.nombre, E.apellido, E.direccion, E.sexo, E.salario, E.evaluacion, E.precioHora, E.experiencia from Empleado as E where E.cedula = "+cedula+"";
 		ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
