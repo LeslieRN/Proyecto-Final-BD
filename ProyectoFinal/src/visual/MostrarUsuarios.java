@@ -24,6 +24,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JTable;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 
@@ -32,22 +34,6 @@ public class MostrarUsuarios extends JDialog {
 	private static DefaultTableModel model;
 	private static Object[] rows;
 
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		try {
-			MostrarUsuarios dialog = new MostrarUsuarios();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
-
-	/**
-	 * Create the dialog.
-	 */
 	public MostrarUsuarios() {
 		setBounds(100, 100, 494, 361);
 		setLocationRelativeTo(null);
@@ -112,14 +98,21 @@ public class MostrarUsuarios extends JDialog {
 		cargarUsuarios();
 	}
 	private static void cargarUsuarios() {
+		
+		ResultSet resultSet = Empresa.getConexion().getResultSet("select US.nombre, TU.nombre from Usuario as US inner join TipoUsuario as TU on US.idTipoUsuario = TU.idTipoUsuario");
+		
 		model.setRowCount(0);
 		rows = new Object[model.getColumnCount()];
-		for(int i = 0; i < Empresa.getInstance().getUsuarios().size(); i++) {
-			rows[0] = Empresa.getInstance().getUsuarios().get(i).getNombreUsuario();
-			rows[1] = Empresa.getInstance().getUsuarios().get(i).getTipo();
-			model.addRow(rows);
-		}
 		
+		try {
+			while(resultSet.next()) {
+				rows[0] = resultSet.getString(1);
+				rows[1] = resultSet.getString(2);
+				model.addRow(rows);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
 	}
 	
 }
