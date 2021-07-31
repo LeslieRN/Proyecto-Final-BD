@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
+import logico.Empresa;
+
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -20,6 +22,8 @@ import java.awt.Font;
 import java.awt.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.awt.event.ActionListener;
@@ -214,14 +218,43 @@ public class AgregarLenguaje extends JDialog {
 		cargarLenguajes();
 	}
 	public static void cargarLenguajes() {
-		lenguaje = new ArrayList<String>();
-		String[] nombreL = {"Python", "C#", "JavaScript", "Ruby", "C++", "C", "Java", "Angular"};
-		lenguaje.addAll(Arrays.asList(nombreL));
+		
+		/*
+		 * ResultSet resultSet = Empresa.getConexion().getResultSet("select CO.numeroContrato, CL.cedula, CL.nombre, PR.fechaIncio, PR.fechaEntrega, CO.montoTotal from (Contrato as CO inner join Cliente as CL on CO.cedula = CL.cedula) inner join Proyecto as PR on PR.numeroContrato = CO.numeroContrato");
+		
+		model.setRowCount(0);
+		rows = new Object[model.getColumnCount()];
+		
+		try {
+			while(resultSet.next()) {
+				rows[0] = resultSet.getInt(1);
+				rows[1] = resultSet.getInt(2);
+				rows[2] = resultSet.getString(3);
+				rows[3] = resultSet.getDate(4);
+				rows[4] = resultSet.getDate(5);
+				rows[5] = resultSet.getInt(6);
+				model.addRow(rows);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		 * 
+		 * */
+		//lenguaje = new ArrayList<String>();
+		//String[] nombreL = {"Python", "C#", "JavaScript", "Ruby", "C++", "C", "Java", "Angular"};
+		//lenguaje.addAll(Arrays.asList(nombreL));
+		
+		ResultSet resultSet = Empresa.getConexion().getResultSet("select nombre from Lenguaje");
 		rows = new Object[model.getColumnCount()];
 		model.setRowCount(0);
-		for(int i = 0; i < lenguaje.size() ; i++) {
-			rows[0] = lenguaje.get(i).toString();
-			model.addRow(rows);
+		try {
+			while(resultSet.next()) {
+				rows[0] = resultSet.getString(1);
+				model.addRow(rows);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	

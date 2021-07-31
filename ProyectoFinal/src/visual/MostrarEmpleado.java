@@ -142,7 +142,7 @@ public class MostrarEmpleado extends JDialog {
 	}
 	
 	private static Object[] insertInRow(int cedula) {
-		ResultSet resultSet = Empresa.getConexion().getResultSet("select E.cedula, E.nombre, E.apellido, E.precioHora, E.idPuesto from Empleado as E where E.cedula = " + cedula);
+		ResultSet resultSet = Empresa.getConexion().getResultSet("select E.cedula, E.nombre, E.apellido, E.precioHora, P.nombre from Empleado as E inner join Puesto as P on E.idPuesto = P.idPuesto where E.cedula = " + cedula);
 		rows = new Object[model.getColumnCount()];
 		try {
 			resultSet.next();
@@ -150,7 +150,7 @@ public class MostrarEmpleado extends JDialog {
 			rows[1] = resultSet.getString(2);
 			rows[2] = resultSet.getString(3);
 			rows[3] = resultSet.getString(4);
-			rows[4] = resultSet.getInt(5);
+			rows[4] = resultSet.getString(5);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

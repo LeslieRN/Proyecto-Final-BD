@@ -63,21 +63,9 @@ public class NuevoContrato extends JDialog {
 	public NuevoContrato(String codigo, String nombre, Date fechaInicio,Date fechaFin,String tipo,String lenguaje,ArrayList<Empleado> temporal_Empleado) {
 		setBounds(100, 100, 650, 420);
 		setLocationRelativeTo(null);
-		/* Calcular numero de dias entre las fecha inicial e final del contrato */
-		/*System.out.println("Esta es la fecga"+strDate);
-		DateFormat dtf = new SimpleDateFormat("dd MM yyyy");
-		String inicio = dtf.format(strDate);
-		String finalFecha = dtf.format(strDate2);
-		DateTimeFormatter dtF = DateTimeFormatter.ofPattern("dd MM yyyy");
-		try {
-			LocalDate fecha1 = LocalDate.parse(inicio, dtF);
-			LocalDate fecha2 = LocalDate.parse(finalFecha, dtF);
-			daysBetween = ChronoUnit.DAYS.between(fecha1, fecha2);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
-		/**/
-		/*this.montoTotalContrato = Empresa.getInstance().calcularMontoTotalContrato(daysBetween, Empresa.getTemp());*/
+		
+		this.montoTotalContrato = Empresa.getInstance().calcularMontoTotalContrato(calcularDiasDeContrato(fechaInicio, fechaFin), temporal_Empleado);
+		
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(255, 255, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -363,7 +351,21 @@ public class NuevoContrato extends JDialog {
 			}
 		}		
 	}
-
+	public long calcularDiasDeContrato(Date fechaInicio, Date fechaFin) {
+		/* Calcular numero de dias entre las fecha inicial e final del contrato */
+		DateFormat dtf = new SimpleDateFormat("dd MM yyyy");
+		String inicio = dtf.format(fechaInicio);
+		String finalFecha = dtf.format(fechaFin);
+		DateTimeFormatter dtF = DateTimeFormatter.ofPattern("dd MM yyyy");
+		try {
+			LocalDate fecha1 = LocalDate.parse(inicio, dtF);
+			LocalDate fecha2 = LocalDate.parse(finalFecha, dtF);
+			daysBetween = ChronoUnit.DAYS.between(fecha1, fecha2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return daysBetween;
+	}
 	private boolean prevenirDigitos(KeyEvent arg0) {
 		if (!Character.isLetter(arg0.getKeyChar()) && !(arg0.getKeyChar() == KeyEvent.VK_SPACE) && !(arg0.getKeyChar() == KeyEvent.VK_BACK_SPACE)) {
 			JOptionPane.showMessageDialog(null, "Solo debe insertar Letras", "Informacion", JOptionPane.WARNING_MESSAGE);

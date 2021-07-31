@@ -16,19 +16,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
 import logico.Empresa;
-import logico.SQLConnection;
-import logico.User;
 
 import java.awt.event.ActionListener;
-import java.beans.Statement;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 
@@ -45,46 +34,6 @@ public class Login extends JDialog {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				Empresa.setConexion();
-				/*FileInputStream empresa;
-				FileOutputStream empresa2;
-				ObjectInputStream empresaRead;
-				ObjectOutputStream empresaWrite;
-				try {
-					empresa = new FileInputStream ("empresa.dat");
-					empresaRead = new ObjectInputStream(empresa);
-					Empresa temp = (Empresa)empresaRead.readObject();
-					
-					
-					// CONEXION
-					Empresa.setConexion();
-					// CONEXION
-					
-					
-					Empresa.setEmpresa(temp);
-					empresa.close();
-					empresaRead.close();
-				} catch (FileNotFoundException e) {
-					try {
-						empresa2 = new  FileOutputStream("empresa.dat");
-						empresaWrite = new ObjectOutputStream(empresa2);
-						User aux = new User("USER-1","Administrador", "Admin", "Admin");
-						Empresa.getInstance().insetarUsuario(aux);
-						empresaWrite.writeObject(Empresa.getInstance());
-						empresa2.close();
-						empresaWrite.close();
-					} catch (FileNotFoundException e1) {
-						
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-					}
-				} catch (IOException e) {
-
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}*/
-				
-				
 				try {
 					Login dialog = new Login();
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -100,8 +49,6 @@ public class Login extends JDialog {
 	 * Create the dialog.
 	 */
 	public Login() {
-		Statement stmt;
-		ResultSet resultSet = null;
 		setBounds(100, 100, 450, 300);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -148,16 +95,6 @@ public class Login extends JDialog {
 				btnIngresar.setIcon(new ImageIcon(Login.class.getResource("/icons/enter.png")));
 				btnIngresar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						/*try {
-							Statement stm = (Statement) SQLConnection.getConnection().createStatement();
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}*/
-						/*String selectSql = "SELECT count(*) as total from Jugador";
-						stmt = (Statement) SQLConnection.getConnection().prepareStatement(selectSql);
-						resultSet =  stmt.ece;
-						Empresa.getInstance().setUsuarios(usuarios);*/
 						if(!(Empresa.getInstance().checkUserData(txtNombreUsuario.getText(), txtPassword.getText()))) {
 							JOptionPane.showMessageDialog(null, "Usuario no encontrado o datos incorrectos", "Informacion", JOptionPane.ERROR_MESSAGE);
 						} else {
