@@ -7,25 +7,20 @@ import java.util.ArrayList;
 
 
 public class Empresa implements Serializable{
-
 	private static final long serialVersionUID = 1L;
 	private ArrayList <Cliente> clientes;
 	private ArrayList <Contrato> contratos;
 	private ArrayList <Empleado> empleados;
 	private ArrayList <Proyecto> proyectos;
 	private ArrayList<User> usuarios;
-
 	private static User loginUser;
 	private static Empresa empresa = null;
-
 	private static int numClientes = 1;
 	private static int numContratos = 1;
 	private static int numEmpleados = 1;
 	private static int numProyectos = 1;
-
-
+	
 	private static ArrayList <Empleado> temp = null;
-
 
 	// PELIGROSO NO TOCAR
 	private static Conexion conexion = null;
@@ -47,7 +42,6 @@ public class Empresa implements Serializable{
 
 	}
 
-
 	// CONEXION PELIGROSO NO TOCAR
 
 	public static Conexion getConexion() {
@@ -57,17 +51,10 @@ public class Empresa implements Serializable{
 	public static void setConexion() {
 		Empresa.conexion =  new Conexion();
 	}
-
+	
 	// CONEXION PELIGROSO NO TOCAR
-
-
-
+	
 	public ArrayList<Cliente> getClientes() {
-
-
-
-
-
 		return clientes;
 	}
 
@@ -160,6 +147,8 @@ public class Empresa implements Serializable{
 	}
 
 	public void insertarContrato(Contrato cont) {
+		String insertSql = "insert into Contrato values("+cont.getMontoTotal()+","+0+","+cont.getCliente().getCedula()+","+Empresa.getLoginUser().getCodigo()+");";
+		Empresa.getConexion().executeInsert(insertSql);
 		this.contratos.add(cont);
 		numContratos++;
 	}
@@ -204,13 +193,6 @@ public class Empresa implements Serializable{
 		numClientes++;
 	}
 
-	public boolean insetarUsuario(User user) {
-		if(checkSiExisteUser(user.getNombreUsuario())) {
-			this.usuarios.add(user);
-			return true;
-		}
-		return false;
-	}
 	public Cliente buscarCliente(String cedula) {
 		String selectSql = "select C.cedula,C.nombre,C.telefono, C.direccion, COUNT(Con.numeroContrato)  as cantidadContratos "
 				+ "from Cliente as C left join Contrato as Con "
@@ -231,7 +213,6 @@ public class Empresa implements Serializable{
 		return cli;
 	}
 
-
 	public Contrato buscarContrato(String codigo) {
 		Contrato cont = null;
 		for(Contrato aux: this.contratos) {
@@ -242,8 +223,6 @@ public class Empresa implements Serializable{
 		}
 		return cont;
 	}
-
-
 
 	public Contrato buscarContratoProyecto(String codigo) {
 		Contrato cont = null;
@@ -273,7 +252,6 @@ public class Empresa implements Serializable{
 		try {
 			while(resultSet.next()) {
 				emp = new Disenador(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3),resultSet.getString(4), " ",resultSet.getString(5),resultSet.getFloat(6), resultSet.getString(7), resultSet.getFloat(8), resultSet.getInt(9));
-				System.out.println("Encontrado!!!");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -326,7 +304,7 @@ public class Empresa implements Serializable{
 					usuario = new User(Integer.toString(resultSet.getInt(1)),resultSet.getString(2), resultSet.getString(3),resultSet.getString(4));
 				}
 				result = true;
-				Empresa.loginUser = usuario;
+				Empresa.setLoginUser(usuario);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -343,18 +321,7 @@ public class Empresa implements Serializable{
 			total += emp.get(i).getSalario();						
 		}				
 		total = total * emp.size() * 8 * daysBetween;
-		total += (total*0.30);
+		total *=1.30;
 		return total;
 	}
-	/*public float calcularGananciasPorMes(int mes) {
-		float total = 0;
-		for(Contrato aux: this.contratos) {
-			int mesP = aux.getProyecto().getFechaTerminacionReal().getMonth();
-			if(aux.getProyecto().getEstado() ==0 && mesP == mes) {
-				total += aux.getMontoTotal();
-
-			}
-		}
-		return total;
-	}*/
 }

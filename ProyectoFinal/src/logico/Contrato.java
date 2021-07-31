@@ -11,7 +11,7 @@ public class Contrato implements Serializable {
 	private float penalidad;
 	private Cliente cliente;
 	private Proyecto proyecto;
-	
+
 	public Contrato(int numeroContrato, String cedulaCliente, String nombreProyecto, Cliente cliente, Proyecto proyecto, float montoTotal) {
 		super();
 		this.numeroContrato = numeroContrato;
@@ -20,12 +20,9 @@ public class Contrato implements Serializable {
 		this.cliente = cliente; 
 		this.proyecto = proyecto;
 		this.montoTotal = montoTotal;
-		
-	}
-//	private static int cantidadContrato = 1;
 
-	
-	
+	}
+
 	public int getNumeroContrato() {
 		return numeroContrato;
 	}
@@ -44,12 +41,6 @@ public class Contrato implements Serializable {
 	public void setNombreProyecto(String nombreProyecto) {
 		this.nombreProyecto = nombreProyecto;
 	}
-/*	public static int getCantidadContrato() {
-		return cantidadContrato;
-	}
-	public static void setCantidadContrato(int cantidadContrato) {
-		Contrato.cantidadContrato = cantidadContrato;
-	} */
 	public float getMontoTotal() {
 		return montoTotal;
 	}
@@ -63,28 +54,20 @@ public class Contrato implements Serializable {
 		this.penalidad = penalidad;
 	}
 
-
-
 	public Cliente getCliente() {
 		return cliente;
 	}
-
-
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
 
-
-
 	public Proyecto getProyecto() {
 		return proyecto;
 	}
 
-
-
 	public void setProyecto(Proyecto proyecto) {
 		this.proyecto = proyecto;
 	}
-	
+
 }
