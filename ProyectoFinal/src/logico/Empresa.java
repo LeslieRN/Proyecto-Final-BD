@@ -19,7 +19,7 @@ public class Empresa implements Serializable{
 	private static int numContratos = 1;
 	private static int numEmpleados = 1;
 	private static int numProyectos = 1;
-	
+
 	private static ArrayList <Empleado> temp = null;
 
 	// PELIGROSO NO TOCAR
@@ -51,9 +51,9 @@ public class Empresa implements Serializable{
 	public static void setConexion() {
 		Empresa.conexion =  new Conexion();
 	}
-	
+
 	// CONEXION PELIGROSO NO TOCAR
-	
+
 	public ArrayList<Cliente> getClientes() {
 		return clientes;
 	}
@@ -143,6 +143,30 @@ public class Empresa implements Serializable{
 	}
 
 	public void insertarEmpleado(Empleado emp) {
+		int idPuesto = 0, experiencia = 0;
+		String puesto = emp.getClass().getSimpleName();
+		System.out.println("EL NOMBREE!!" +puesto);
+		String idPuestoSQL = "SELECT idPuesto FROM Puesto where nombre='"+puesto+"';";
+		ResultSet resultSet = Empresa.getConexion().getResultSet(idPuestoSQL);
+		try {
+			while(resultSet.next()) {
+				idPuesto=resultSet.getInt(1);
+			}
+			if(emp instanceof Disenador) {
+				experiencia = ((Disenador) emp).getExperiencia();
+			}
+			String insertSql = "INSERT INTO Empleado VALUES("+emp.getCedula()+",'"+emp.getNombre()+"','"+emp.getApellido()+"','"+emp.getSexo()+"', '"+emp.getDireccion()+"', 'Excelente', "+emp.getSalario()+", "+emp.getPrecioHora()+", "+experiencia+","+idPuesto+");";
+			Empresa.getConexion().executeInsert(insertSql);
+			if(emp instanceof Programador) {
+				for(int i = 0; i < ((Programador)emp).getLenguaje().size(); i++) {
+					String languageSQL = "INSERT INTO EmpleadoLenguaje VALUES((SELECT idLenguaje from Lenguaje where nombre='"+((Programador)emp).getLenguaje().get(i)+"'),"+emp.getCedula()+");";
+					Empresa.getConexion().executeInsert(languageSQL);
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.empleados.add(emp);
 	}
 
@@ -244,7 +268,7 @@ public class Empresa implements Serializable{
 		}
 		return pro;
 	}
-	
+
 	public int buscarCantidadProyectos() {
 		int cantidad = 0;
 		ResultSet resultSet = Empresa.getConexion().getResultSet("select count(*) from Proyecto");
@@ -303,7 +327,7 @@ public class Empresa implements Serializable{
 		}
 		return false;
 	}
-	
+
 	public boolean checkUserData(String nombreUsuario, String passwordUsuario) {
 		String selectSql = "SELECT U.codigo,U.nombre,U.contraseña,T.nombre  from Usuario as U inner join TipoUsuario as T on U.idTipoUsuario = T.idTipoUsuario where U.nombre='"+nombreUsuario+"' and U.contraseña='"+passwordUsuario+"';";
 		ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
