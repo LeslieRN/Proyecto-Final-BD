@@ -109,4 +109,25 @@ create table Historial (
 
 select TOP 1 E.cedula, E.nombre, E.apellido, E.precioHora, E.idPuesto from Empleado as E where E.cedula = 402130999
 
-select * from Cliente as CL inner join (Proyecto as PR inner join Contrato as CO on PR.numeroContrato = CO.numeroContrato) on c.cedula 
+/* "Cedula", "Nombre","Telefono", "Direccion", "Proyectos Activos" */
+
+select CL.cedula, CL.nombre, CL.telefono, CL.direccion, count(PR.idProyecto) as proyectosActivos from Cliente as CL inner join (Proyecto as PR inner join Contrato as CO on PR.numeroContrato = CO.numeroContrato) on CL.cedula = CO.cedula group by CL.cedula, CL.nombre, CL.telefono, CL.direccion
+
+/* Num. Contrato", "Cedula Cliente", "Nombre Cliente", "Fecha Inicio", "Fecha Entrega", "Monto Total" */
+
+select CO.numeroContrato, CL.cedula, CL.nombre, PR.fechaIncio, PR.fechaEntrega, CO.montoTotal from (Contrato as CO inner join Cliente as CL on CO.cedula = CL.cedula) inner join Proyecto as PR on PR.numeroContrato = CO.numeroContrato
+
+/* "Nombre", "Tipo", "Lenguaje", "Fecha Inicio", "Fecha Terminacion" */
+
+select PR.nombre, TP.nombre, LE.nombre, PR.fechaIncio, PR.fechaFin from (Proyecto as PR inner join TipoProyecto as TP on PR.id_TipoProyecto = TP.id_TipoProyecto) inner join Lenguaje as LE on LE.idLenguaje = PR.idLenguaje
+
+select PR.idProyecto, PR.estado from Proyecto as PR
+
+update Proyecto set fechaFin = '', fechaEntrega = '', extendido = 1 where nombre = ''
+
+/** CAMBIAR DE FECHA UN PROYECTO DADO EL NOMBRE DEL MISMO **/
+update Proyecto set estado=0 where nombre = ''
+
+
+/** MOSTRAR TODOS LOS USUARIOS Y EL TIPO DE LO MISMOS **/
+select US.nombre, TU.nombre from Usuario as US inner join TipoUsuario as TU on US.idTipoUsuario = TU.idTipoUsuario
