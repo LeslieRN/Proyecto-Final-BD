@@ -276,7 +276,6 @@ public class Empresa implements Serializable{
 				System.out.println("Encontrado!!!");
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return emp;
@@ -330,10 +329,8 @@ public class Empresa implements Serializable{
 				Empresa.loginUser = usuario;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return result;
 	}
 	public float calcularMontoTotalContrato(long daysBetween, ArrayList<Empleado> emp) {

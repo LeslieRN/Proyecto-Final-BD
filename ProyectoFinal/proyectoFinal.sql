@@ -131,3 +131,11 @@ update Proyecto set estado=0 where nombre = ''
 
 /** MOSTRAR TODOS LOS USUARIOS Y EL TIPO DE LO MISMOS **/
 select US.nombre, TU.nombre from Usuario as US inner join TipoUsuario as TU on US.idTipoUsuario = TU.idTipoUsuario
+
+/** RETORNA RETORNA 0 SI EL USUARIO NO EXISTE **/
+select count(US.nombre) from Usuario as Us where US.nombre = ''
+
+/** FUNCION QUE CREA UN NUEVO USUARIO **/
+select * from usuario;
+select * from TipoUsuario
+insert into Usuario(nombre, contraseña, idTipoUsuario) values ('Secretaria', 'Secre', 2);
