@@ -31,6 +31,8 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -137,7 +139,7 @@ public class MostrarProyecto extends JDialog {
 				cmbEstado = new JComboBox();
 				cmbEstado.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						cargarEmpleados(cmbEstado.getSelectedItem().toString());
+						cargarProyectos(cmbEstado.getSelectedItem().toString());
 					}
 				});
 				cmbEstado.setModel(new DefaultComboBoxModel(new String[] {"Todo", "En Proceso", "Finalizado"}));
@@ -147,28 +149,8 @@ public class MostrarProyecto extends JDialog {
 				btnFinalizar = new JButton("Finalizar");
 				btnFinalizar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						/*Proyecto pro = Empresa.getInstance().buscarProyecto(proyectos[0]);
-						float montoTotal = 0;
-						if(pro != null) {
-							Contrato cont = Empresa.getInstance().buscarContratoProyecto(pro.getNombre());
-							pro.setEstado(0);
-							pro.setFechaTerminacionReal(new Date());
-							if(pro.getFechaEntrega().before(pro.getFechaTerminacionReal())) {
-								montoTotal = cont.getMontoTotal();
-								DateFormat dtf = new SimpleDateFormat("dd MM yyyy");
-								String inicio = dtf.format(pro.getFechaEntrega());
-								String finalFecha = dtf.format(pro.getFechaTerminacionReal());
-								DateTimeFormatter dtF = DateTimeFormatter.ofPattern("dd MM yyyy");
-								LocalDate fecha1 = LocalDate.parse(inicio, dtF);
-								LocalDate fecha2 = LocalDate.parse(finalFecha, dtF);
-								long daysBetween = ChronoUnit.DAYS.between(fecha1, fecha2);
-								float days = (float)daysBetween;
-								montoTotal = montoTotal - (montoTotal * (days/100));
-								cont.setMontoTotal(montoTotal);
-							}
-							JOptionPane.showMessageDialog(null, "Proyecto Finalizado con exito", "Informacion", JOptionPane.INFORMATION_MESSAGE);
-							dispose();
-						}*/
+						Empresa.getConexion().executeInsert("update Proyecto set estado=0 where nombre = '" + proyectos[0] + "'");	
+						cargarProyectos(cmbEstado.getSelectedItem().toString());
 					}
 				});
 				btnFinalizar.setEnabled(false);
@@ -185,7 +167,7 @@ public class MostrarProyecto extends JDialog {
 						CambiarFecha cambiarFecha = new CambiarFecha(proyectos[0],proyectos[4]);
 						cambiarFecha.setModal(true);
 						cambiarFecha.setVisible(true);
-						cargarEmpleados(cmbEstado.getSelectedItem().toString());
+						cargarProyectos(cmbEstado.getSelectedItem().toString());
 					}
 				});
 				btnProrroga.setEnabled(false);
@@ -195,37 +177,44 @@ public class MostrarProyecto extends JDialog {
 				panel_1.add(btnProrroga);
 			}
 		}
-		cargarEmpleados(cmbEstado.getSelectedItem().toString());
+		cargarProyectos(cmbEstado.getSelectedItem().toString());
 	}
-	public static void cargarEmpleados(String selectedItem) {
+	
+	public static void cargarProyectos(String selectedItem) {
+		ResultSet resultSet = Empresa.getConexion().getResultSet("select PR.idProyecto, PR.estado from Proyecto as PR");
 		model.setRowCount(0);
-		for(int i = 0; i < Empresa.getInstance().getProyectos().size(); i++) {
-			if(selectedItem.equalsIgnoreCase("En Proceso")) {
-				if(Empresa.getInstance().getProyectos().get(i).getEstado() == 1) {
-					model.addRow(insertInRow(i));
+		try {
+			while(resultSet.next()) {
+				if(selectedItem.equalsIgnoreCase("En Proceso")) {
+					if(resultSet.getInt(2)==1) {
+						model.addRow(insertInRow(resultSet.getInt(1)));
+					}
+				} else if (selectedItem.equalsIgnoreCase("Finalizado")) {
+					if(resultSet.getInt(2)==0) {
+						model.addRow(insertInRow(resultSet.getInt(1)));
+					}
+				}else if (selectedItem.equalsIgnoreCase("Todo")) {
+					model.addRow(insertInRow(resultSet.getInt(1)));
 				}
-			} else if (selectedItem.equalsIgnoreCase("Finalizado")) {
-				if(Empresa.getInstance().getProyectos().get(i).getEstado() == 0) {
-					model.addRow(insertInRow(i));
-				}
-			}else if (selectedItem.equalsIgnoreCase("Todo")) {
-				model.addRow(insertInRow(i));
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
-	private static Object[] insertInRow(int index) {
-		DateFormat dtf = new SimpleDateFormat("dd/MM/yyyy");
-		String inicio ,finalFecha = "";
-		inicio = dtf.format(Empresa.getInstance().getProyectos().get(index).getFechaInicio());
-		finalFecha = dtf.format(Empresa.getInstance().getProyectos().get(index).getFechaEntrega());
+	private static Object[] insertInRow(int idProyecto) {
+		ResultSet resultSet = Empresa.getConexion().getResultSet("select PR.nombre, TP.nombre, LE.nombre, PR.fechaIncio, PR.fechaFin from (Proyecto as PR inner join TipoProyecto as TP on PR.id_TipoProyecto = TP.id_TipoProyecto) inner join Lenguaje as LE on LE.idLenguaje = PR.idLenguaje where PR.idProyecto = " + idProyecto);
 		rows = new Object[model.getColumnCount()];
-		rows[0] = Empresa.getInstance().getProyectos().get(index).getNombre();
-		rows[1] = Empresa.getInstance().getProyectos().get(index).getTipo();
-		rows[2] = Empresa.getInstance().getProyectos().get(index).getLenguaje();
-		rows[3] = inicio;
-		rows[4] = finalFecha;
+		try {
+			resultSet.next();
+			rows[0] = resultSet.getString(1);
+			rows[1] = resultSet.getString(2);
+			rows[2] = resultSet.getString(3);
+			rows[3] = resultSet.getDate(4);
+			rows[4] = resultSet.getDate(5);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return rows;
-
 	}
 }

@@ -9,6 +9,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,26 +42,13 @@ public class CambiarFecha extends JDialog {
 	private JFormattedTextField txtFechaEntregaA;
 	private String fechaEntregaInicial;
 	private String codigoProyecto;
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		try {
-			CambiarFecha dialog = new CambiarFecha();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
 
-	/**
-	 * Create the dialog.
-	 * @param proyectos 
-	 */
 	public CambiarFecha(String nombre,String proyectosFecha) {
 		this.codigoProyecto = nombre;
 		this.fechaEntregaInicial = proyectosFecha;
+		
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		
 		setBounds(100, 100, 386, 231);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -91,7 +79,7 @@ public class CambiarFecha extends JDialog {
 			lblNewLabel_1.setBounds(10, 98, 175, 14);
 			panel.add(lblNewLabel_1);
 			
-			txtFechaEntregaA = new JFormattedTextField(new SimpleDateFormat("dd/MM/yyyy"));
+			txtFechaEntregaA = new JFormattedTextField(formato);
 			txtFechaEntregaA.setValue(new java.util.Date());
 			txtFechaEntregaA.setBounds(195, 95, 155, 20);
 			panel.add(txtFechaEntregaA);
@@ -107,18 +95,15 @@ public class CambiarFecha extends JDialog {
 				btnCambiar.setIcon(new ImageIcon(CambiarFecha.class.getResource("/icons/diskette (1).png")));
 				btnCambiar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						Proyecto pro = Empresa.getInstance().buscarProyecto(codigoProyecto);
-						if(pro != null) {
-							Date fechaEntregaA;
-							try {
-								fechaEntregaA = new SimpleDateFormat("dd/MM/yyyy").parse(txtFechaEntregaA.getText());
-								//pro.setFechaEntrega(fechaEntregaA);
-								pro.setExtendido(1);
-								
-							} catch (ParseException e) {
-								// TODO Auto-generated catch block
-								JOptionPane.showMessageDialog(null, "Ocurrio un error", "Informacion", JOptionPane.ERROR_MESSAGE);
-							}
+						int verificador=0;
+						try {
+							Date fechaEntregaA = formato.parse(txtFechaEntregaA.getText());
+							Empresa.getConexion().executeInsert("update Proyecto set fechaFin = '" + formato.format(fechaEntregaA) + "', fechaEntrega = '" + formato.format(fechaEntregaA) + "', extendido = 1 where nombre = '" + nombre+"'");							
+						} catch (ParseException e) {
+							JOptionPane.showMessageDialog(null, "Ocurrio un error", "Informacion", JOptionPane.ERROR_MESSAGE);
+							verificador = 1;
+						}
+						if(verificador==0) {
 							JOptionPane.showMessageDialog(null, "Proyecto Modificado con exito", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 							dispose();
 						}
