@@ -1,4 +1,4 @@
-/* CREACION DE LA BASE DE DATOS */
+﻿/* CREACION DE LA BASE DE DATOS */
 create database proyectoFinal_grupo1
 
 /* CREACION DE LAS TABLAS */
@@ -104,6 +104,10 @@ create table Historial (
 	references Usuario(codigo),
 );
 
+create table TipoProyecto (
+	id_TipoProyecto int identity(1,1) primary key not null,
+	nombre varchar(30) not null
+);
 
 /* QUERYS UTILIZADOS EN EL PROGRAMA */
 
@@ -139,3 +143,30 @@ select count(US.nombre) from Usuario as Us where US.nombre = ''
 select * from usuario;
 select * from TipoUsuario
 insert into Usuario(nombre, contraseña, idTipoUsuario) values ('Secretaria', 'Secre', 2);
+
+
+/** INSERTANDO DATOS A TABLA DE TIPO USUARIO **/
+insert into TipoUsuario values ('Administrador');
+insert into TipoUsuario values ('Secretaria/o');
+
+/** CONSULTA QUE DEVUELVE INFORMACION DEL CLIENTE CON LA CANTIDAD DE CONTRATOS**/
+select C.cedula,C.nombre,C.telefono, C.direccion, COUNT(Con.numeroContrato)  as cantidadContratos 
+from Cliente as C left join Contrato as Con on C.cedula = Con.cedula 
+group by  C.cedula,C.nombre,C.telefono, C.direccion;
+
+
+/** INSERTANDO DATOS EN LA TABLA DE TIPO PROYECTO **/
+
+insert into TipoProyecto values ('Web');
+insert into TipoProyecto values ('Desktop');
+insert into TipoProyecto values ('Movil');
+
+
+/** MODIFICANDO ESTRUCTURA DE LA TABLA PROYECTO **/
+alter table Proyecto alter column id_TipoProyecto int not null;
+
+update Proyecto set id_TipoProyecto = 1 where idProyecto = 2;
+update Proyecto set id_TipoProyecto = 2 where idProyecto = 3;
+
+/** MODIFICANDO ESTRUCTURA DE LA TABLA CONTRATO **/
+alter table Contrato add codigo int foreign key references Usuario(codigo);
