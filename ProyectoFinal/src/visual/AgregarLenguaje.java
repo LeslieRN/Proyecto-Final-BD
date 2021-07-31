@@ -42,24 +42,8 @@ public class AgregarLenguaje extends JDialog {
 	private static ArrayList<String> lenguaje;
 	private int lenguajeS;
 	private String lenguajeSN;
-	/**
-	 * Launch the application.
-	 */
-	//hola
-	
-	/*public static void main(String[] args) {
-		try {
-			AgregarLenguaje dialog = new AgregarLenguaje();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
 
-	/**
-	 * Create the dialog.
-	 */
+
 	public AgregarLenguaje() {
 		setBounds(100, 100, 671, 443);
 		setLocationRelativeTo(null);

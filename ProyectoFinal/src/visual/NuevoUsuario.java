@@ -33,22 +33,6 @@ public class NuevoUsuario extends JDialog {
 	private JButton btnCancelar;
 	private JComboBox cmbTipoUsuario;
 
-	/**
-	 * Launch the application.
-	 */
-	/*public static void main(String[] args) {
-		try {
-			NuevoUsuario dialog = new NuevoUsuario();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
-
-	/**
-	 * Create the dialog.
-	 */
 	public NuevoUsuario() {
 		setBounds(100, 100, 454, 330);
 		setLocationRelativeTo(null);
@@ -124,15 +108,18 @@ public class NuevoUsuario extends JDialog {
 		btnInsertarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				User nuevoUsuario = null;
+				
 				nuevoUsuario = new User("User " +String.valueOf("USER-"+User.getCodigoUsuario() + 1), txtNombreUsuario.getText(), txtPassword.getText(), cmbTipoUsuario.getSelectedItem().toString());
+				
 				if(!(Empresa.getInstance().checkSiExisteUser(txtNombreUsuario.getText()))) {
 					JOptionPane.showMessageDialog(null, "Usuario no insertado", "Informacion", JOptionPane.ERROR_MESSAGE);
 				} else if (!(txtPasswordRepetir.getText().equalsIgnoreCase(txtPassword.getText()))) {
 					JOptionPane.showMessageDialog(null, "Usuario no insertado", "Informacion", JOptionPane.ERROR_MESSAGE);
 				} else {
-					Empresa.getInstance().insetarUsuario(nuevoUsuario);
+					Empresa.getConexion().executeInsert("insert into Usuario(nombre, contraseña, idTipoUsuario) values ('"+ txtNombreUsuario.getText() + "', '"+ txtPassword.getText() +"', "+ (cmbTipoUsuario.getSelectedIndex()+1) +")");
 					JOptionPane.showMessageDialog(null, "Usuario insertado con éxito", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 				}
+				
 				clean();
 			}
 		});

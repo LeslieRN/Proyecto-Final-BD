@@ -462,10 +462,6 @@ public class Empleado extends JDialog {
 		return true;
 	}
 
-	/**
-	 * Funcion para agregar los lenguajes al arrayList de programador
-	 * */
-
 	private ArrayList<String> collectLanguages() {
 		ArrayList<String> lenguajesProg = new ArrayList<String>();
 		if(modelProg.getRowCount() < 0) {
@@ -476,6 +472,7 @@ public class Empleado extends JDialog {
 		}
 		return lenguajesProg;
 	}
+	
 	private void clean() {
 		txtCedulaEmp.setText("");
 		txtNombreEmp.setText("");

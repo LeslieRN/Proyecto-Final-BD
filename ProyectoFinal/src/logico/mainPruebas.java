@@ -15,8 +15,5 @@ public class mainPruebas {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
-		
 	}
-
 }

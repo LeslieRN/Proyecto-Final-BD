@@ -44,24 +44,7 @@ public class AgregarEmpleado extends JDialog {
 	private int empleadosIndex;
 	private JButton btnInsertarEmpleados;
 	private JButton btnCancelar;
-	/**
-	 * Launch the application.
-	 */
-	//hola
-	/*public static void main(String[] args) {
-		try {
-			AgregarEmpleado dialog = new AgregarEmpleado();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
 
-	/**
-	 * Create the dialog.
-	 * @param string 
-	 */
 	public AgregarEmpleado(String string) {
 		this.nombreLenguaje = string;
 		this.empleados = new String[3];
@@ -252,7 +235,6 @@ public class AgregarEmpleado extends JDialog {
 				model.addRow(rows);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -302,13 +302,18 @@ public class Empresa implements Serializable{
 	}
 
 	public boolean checkSiExisteUser(String usuario) {
-		for(User aux: this.usuarios) {
-			if(aux.getNombreUsuario().equalsIgnoreCase(usuario)) {
-				return false;
+		ResultSet resultSet = Empresa.getConexion().getResultSet("select count(US.nombre) from Usuario as Us where US.nombre = '" + usuario + "'");
+		try {
+			resultSet.next();
+			if(resultSet.getInt(1)==0) {
+				return true;
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
-		return true;
+		return false;
 	}
+	
 	public boolean checkUserData(String nombreUsuario, String passwordUsuario) {
 		String selectSql = "SELECT U.codigo,U.nombre,U.contraseña,T.nombre  from Usuario as U inner join TipoUsuario as T on U.idTipoUsuario = T.idTipoUsuario where U.nombre='"+nombreUsuario+"' and U.contraseña='"+passwordUsuario+"';";
 		ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
