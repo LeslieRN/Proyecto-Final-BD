@@ -209,7 +209,7 @@ public class NuevoProyecto extends JDialog {
 			lblNewLabel_1.setBounds(10, 28, 46, 14);
 			panel.add(lblNewLabel_1);
 			txtCodigo = new JTextField();
-			txtCodigo.setText(String.valueOf(Empresa.getInstance().getProyectos().size() + 1));
+			txtCodigo.setText(String.valueOf(Empresa.getInstance().buscarCantidadProyectos()));
 			txtCodigo.setEditable(false);
 			txtCodigo.setBounds(52, 25, 150, 20);
 			panel.add(txtCodigo);
