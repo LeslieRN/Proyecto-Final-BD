@@ -1,10 +1,7 @@
 package logico;
 
-import java.io.Serializable;
+public abstract class Empleado {
 
-public abstract class Empleado implements Serializable {
-
-	private static final long serialVersionUID = 1L;
 	protected String cedula;
 	protected String nombre;
 	protected String apellido;

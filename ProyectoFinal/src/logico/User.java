@@ -1,9 +1,8 @@
 package logico;
 
-import java.io.Serializable;
 
-public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class User {
+	
 	private String codigo;
 	private String nombreUsuario;
 	private String passwordUsuario;

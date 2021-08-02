@@ -1,15 +1,14 @@
 package logico;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Cliente implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class Cliente {
 	private String cedula;
 	private String nombre;
 	private String direccion;
 	private String telefono;
 	private ArrayList<Contrato> contratos;
+	
+	// ESTO YA TIENE QUE ELIMINARSE
 	private int cantiProyectos = 1;
 	
 	public Cliente(String cedula, String nombre, String direccion, String telefono) {

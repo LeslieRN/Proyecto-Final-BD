@@ -1,11 +1,9 @@
 package logico;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
-public class Proyecto implements Serializable{
-	private static final long serialVersionUID = 1L;
+public class Proyecto {
+
 	private ArrayList <Empleado> empleados;
 	private String nombre;
 	private String tipo;
@@ -101,9 +99,4 @@ public class Proyecto implements Serializable{
 	public void setFechaTerminacionReal(String fechaTerminacionReal) {
 		this.fechaTerminacionReal = fechaTerminacionReal;
 	}
-	
-	
-	
-
-
 }

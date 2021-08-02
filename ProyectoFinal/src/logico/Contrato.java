@@ -1,9 +1,7 @@
 package logico;
 
-import java.io.Serializable;
+public class Contrato {
 
-public class Contrato implements Serializable {
-	private static final long serialVersionUID = 1L;
 	private int numeroContrato;
 	private String cedulaCliente;
 	private String nombreProyecto; //se puede cambiar a tipo proyecto, a espera de la siguiente clase
