@@ -214,7 +214,12 @@ public class NuevoContrato extends JDialog {
 
 			txtId = new JTextField();
 			txtId.setEnabled(false);
+			
+			
+			// QUERY DE CONTRATO
 			txtId.setText(String.valueOf(Empresa.getInstance().getContratos().size() + 1));
+			// PENDIENTE
+			
 			txtId.setBounds(101, 39, 160, 20);
 			panel_1.add(txtId);
 			txtId.setColumns(10);
@@ -306,17 +311,15 @@ public class NuevoContrato extends JDialog {
 							Contrato c = new Contrato(idContrato, cedula, nombreP, cli, p, montoTotalContrato);
 
 							if(cExiste == true) {
-
-								clienteNuevoPoyecto(cExistente,p,c);
+								//clienteNuevoPoyecto(cExistente,p,c);
 								cExiste = false;
 								cExistente = null;
 								dispose();
-
 							}else {
-
 								Empresa.getInstance().insertarCliente(cli);
-
 							}
+							
+							
 							Empresa.getInstance().insertarContrato(c);
 							Empresa.getInstance().insertarProyecto(p, c);
 							JOptionPane.showMessageDialog(null,  "Se ha agregado un nuevo proyecto satisfactoriamente ", "Informacion", JOptionPane.INFORMATION_MESSAGE);
@@ -339,18 +342,17 @@ public class NuevoContrato extends JDialog {
 		btnFinalizar.setBounds(522, 0, 89, 45);
 		panel.add(btnFinalizar);
 	}
-	public void clienteNuevoPoyecto(Cliente c, Proyecto p, Contrato co) {
-
-		for(Cliente cli : Empresa.getInstance().getClientes()) {
-
-			if(c == cli) {
-
-				cli.getContratos().add(co);//insert
-				cli.setCantiProyectos(cli.getCantiProyectos()+1);//update
-
-			}
-		}		
-	}
+	
+	
+	//public void clienteNuevoPoyecto(Cliente c, Proyecto p, Contrato co) {
+		//for(Cliente cli : Empresa.getInstance().getClientes()) {
+			//if(c == cli) {
+				//cli.getContratos().add(co);//insert
+				//cli.setCantiProyectos(cli.getCantiProyectos()+1);//update
+			//}
+		//}		
+	//}
+	
 	public long calcularDiasDeContrato(Date fechaInicio, Date fechaFin) {
 		/* Calcular numero de dias entre las fecha inicial e final del contrato */
 		DateFormat dtf = new SimpleDateFormat("dd MM yyyy");

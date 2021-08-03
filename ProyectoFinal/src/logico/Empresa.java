@@ -7,13 +7,15 @@ import java.util.ArrayList;
 
 public class Empresa {
 	
-	private ArrayList <Cliente> clientes;
-	private ArrayList <Contrato> contratos;
-	private ArrayList <Empleado> empleados;
-	private ArrayList <Proyecto> proyectos;
-	private ArrayList<User> usuarios;
+	//private ArrayList <Cliente> clientes;
+	//private ArrayList <Contrato> contratos;
+	//private ArrayList <Empleado> empleados;
+	//private ArrayList <Proyecto> proyectos;
+	//private ArrayList<User> usuarios;
+
 	private static User loginUser;
 	private static Empresa empresa = null;
+	
 	//private static int numClientes = 1;
 	//private static int numContratos = 1;
 	//private static int numEmpleados = 1;
@@ -26,11 +28,11 @@ public class Empresa {
 
 	public Empresa() {
 		super();
-		this.clientes = new ArrayList <Cliente>();
-		this.contratos = new ArrayList <Contrato>();
-		this.empleados = new ArrayList <Empleado>();
-		this.proyectos = new ArrayList <Proyecto>();
-		this.usuarios = new ArrayList<User>();
+		//this.clientes = new ArrayList <Cliente>();
+		//this.contratos = new ArrayList <Contrato>();
+		//this.empleados = new ArrayList <Empleado>();
+		//this.proyectos = new ArrayList <Proyecto>();
+		//this.usuarios = new ArrayList<User>();
 	}
 
 	public static Empresa getInstance() {
@@ -54,21 +56,21 @@ public class Empresa {
 	// CONEXION PELIGROSO NO TOCAR
 
 	
-	public ArrayList<Cliente> getClientes() {
-		return clientes;
-	}
+	//public ArrayList<Cliente> getClientes() {
+		//return clientes;
+	//}
 
 	//public void setClientes(ArrayList<Cliente> clientes) {
 		//this.clientes = clientes;
 	//}
 
-	public ArrayList<Contrato> getContratos() {
-		return contratos;
-	}
+	//public ArrayList<Contrato> getContratos() {
+		//return contratos;
+	//}
 
-	public void setContratos(ArrayList<Contrato> contratos) {
-		this.contratos = contratos;
-	}
+	//public void setContratos(ArrayList<Contrato> contratos) {
+		//this.contratos = contratos;
+	//}
 
 	//public ArrayList<Empleado> getEmpleados() {
 		//return empleados;
@@ -171,7 +173,7 @@ public class Empresa {
 	public void insertarContrato(Contrato cont) {
 		String insertSql = "insert into Contrato values("+cont.getMontoTotal()+","+0+","+cont.getCliente().getCedula()+","+Empresa.getLoginUser().getCodigo()+");";
 		Empresa.getConexion().executeInsert(insertSql);
-		this.contratos.add(cont);
+		//this.contratos.add(cont);
 		//numContratos++;
 	}
 
@@ -293,25 +295,27 @@ public class Empresa {
 		return emp;
 	}
 
-	
-	public ArrayList<Empleado> buscarEmpleadoPorLenguaje(String lenguaje) {
-		String selectSql = "select E.cedula, E.nombre, P.nombre from Empleado as E inner join Puesto as P on E.idPuesto = P.idPuesto inner join EmpleadoLenguaje as EL on E.cedula = EL.cedula inner join Lenguaje as L on EL.idLenguaje = L.idLenguaje  where L.nombre = '"+lenguaje+"'";
-		ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
-		Empleado emp = null;
-		ArrayList<Empleado> empA = new ArrayList<Empleado>();
-		Programador pro = null;
-		for(Empleado aux: this.empleados) {
-			if(aux instanceof Programador) {
-				pro = (Programador) aux; 
-				if(pro.getLenguaje().contains(lenguaje)) {
-					empA.add(pro);
-				}
-			} else if(!(aux instanceof Programador)) {
-				empA.add(aux);
-			}
-		}
-		return empA;
-	}
+	//public ArrayList<Empleado> buscarEmpleadoPorLenguaje(String lenguaje) {
+		//String selectSql = "select E.cedula, E.nombre, P.nombre from Empleado as E inner join Puesto as P on E.idPuesto = P.idPuesto inner join EmpleadoLenguaje as EL on E.cedula = EL.cedula inner join Lenguaje as L on EL.idLenguaje = L.idLenguaje  where L.nombre = '"+lenguaje+"'";
+		//ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
+		//Empleado emp = null;
+		//ArrayList<Empleado> empA = new ArrayList<Empleado>();
+		//Programador pro = null;
+		
+		//for(Empleado aux: this.empleados) {
+			//if(aux instanceof Programador) {
+				//pro = (Programador) aux; 
+				//if(pro.getLenguaje().contains(lenguaje)) {
+					//empA.add(pro);
+				//}
+			//} else if(!(aux instanceof Programador)) {
+				//empA.add(aux);
+			//}
+		//}
+		
+		//return empA;
+	//}
+
 
 	public boolean checkSiExisteUser(String usuario) {
 		ResultSet resultSet = Empresa.getConexion().getResultSet("select count(US.nombre) from Usuario as Us where US.nombre = '" + usuario + "'");
