@@ -18,6 +18,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -32,10 +34,12 @@ public class NuevoUsuario extends JDialog {
 	private JButton btnInsertarUsuario;
 	private JButton btnCancelar;
 	private JComboBox cmbTipoUsuario;
+	private static DefaultComboBoxModel modelComboUsuario;
 
 	public NuevoUsuario() {
 		setBounds(100, 100, 454, 330);
 		setLocationRelativeTo(null);
+		modelComboUsuario = new DefaultComboBoxModel();
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(255, 255, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -77,7 +81,7 @@ public class NuevoUsuario extends JDialog {
 		txtPasswordRepetir.setColumns(10);
 		
 		cmbTipoUsuario = new JComboBox();
-		cmbTipoUsuario.setModel(new DefaultComboBoxModel(new String[] {"Administrador", "Secretario"}));
+		cmbTipoUsuario.setModel(modelComboUsuario);
 		cmbTipoUsuario.setBackground(new Color(255, 255, 255));
 		cmbTipoUsuario.setBounds(144, 180, 128, 20);
 		panel.add(cmbTipoUsuario);
@@ -123,6 +127,7 @@ public class NuevoUsuario extends JDialog {
 				clean();
 			}
 		});
+		cargarTipoUsuario();
 		btnInsertarUsuario.setBackground(new Color(51, 102, 153));
 		btnInsertarUsuario.setBounds(339, 0, 89, 43);
 		panel_1.add(btnInsertarUsuario);
@@ -133,5 +138,18 @@ public class NuevoUsuario extends JDialog {
 		txtPassword.setText("");
 		txtPasswordRepetir.setText("");
 		
+	}
+	
+	private static void cargarTipoUsuario() {
+		String selectSql = "select nombre from TipoUsuario;";
+		ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
+		try {
+			while(resultSet.next()) {
+				modelComboUsuario.addElement(resultSet.getString(1));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

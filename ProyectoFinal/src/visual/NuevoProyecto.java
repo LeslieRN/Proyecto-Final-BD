@@ -44,6 +44,7 @@ public class NuevoProyecto extends JDialog {
 	private static JTextField txtCodigo;
 	private static DefaultTableModel model;
 	private static DefaultComboBoxModel modelComboLanguage;
+	private static DefaultComboBoxModel modelComboTipo;
 	private static Object[] rows;
 	private static JComboBox cmbLenguajes;
 	private JButton btnAgregarEmpleado;
@@ -57,6 +58,7 @@ public class NuevoProyecto extends JDialog {
 		setLocationRelativeTo(null);
 		model = new DefaultTableModel();
 		modelComboLanguage = new DefaultComboBoxModel(); 
+		modelComboTipo = new DefaultComboBoxModel();
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(255, 255, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -189,7 +191,7 @@ public class NuevoProyecto extends JDialog {
 			}
 			{
 				cbxTipo = new JComboBox();
-				cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"Web", "Desktop", "M\u00F3vil"}));
+				cbxTipo.setModel(modelComboTipo);
 				cbxTipo.setBackground(new Color(255, 255, 255));
 				cbxTipo.setBounds(168, 116, 86, 20);
 				panel.add(cbxTipo);
@@ -244,6 +246,7 @@ public class NuevoProyecto extends JDialog {
 			panel.add(spnFentrega);
 		}
 		cargarDatosComboboxLenguaje();
+		cargarDatosComboboxTipo();
 		if(codigo != null) {
 			txtCodigo.setText(codigo);
 			txtNombre.setText(nombre);
@@ -312,6 +315,18 @@ public class NuevoProyecto extends JDialog {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	private static void cargarDatosComboboxTipo() {
+		String selectsql = "select nombre from TipoProyecto;";
+		ResultSet resultset = Empresa.getConexion().getResultSet(selectsql);
+		try {
+			while(resultset.next()) {
+				modelComboTipo.addElement(resultset.getString(1));
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	private static void cargarDatosTabla(ArrayList<Empleado> temp_emp) {
 		String[] empleados = {"Cedula", "Nombre", "Puesto"};

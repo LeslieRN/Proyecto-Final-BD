@@ -34,8 +34,8 @@ public class Reportes extends JDialog {
 
 	public Reportes() {
 		setTitle("Reportes");
-		setLocationRelativeTo(null);
 		setBounds(100, 100, 362, 440);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(255, 255, 255));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

@@ -217,7 +217,7 @@ public class NuevoContrato extends JDialog {
 			
 			
 			// QUERY DE CONTRATO
-			txtId.setText(String.valueOf(Empresa.getInstance().getContratos().size() + 1));
+			txtId.setText("" /*String.valueOf(Empresa.getInstance().getContratos().size() + 1)*/);
 			// PENDIENTE
 			
 			txtId.setBounds(101, 39, 160, 20);
