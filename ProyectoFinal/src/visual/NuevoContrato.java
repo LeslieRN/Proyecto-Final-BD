@@ -31,6 +31,8 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
@@ -216,9 +218,17 @@ public class NuevoContrato extends JDialog {
 			txtId.setEnabled(false);
 			
 			
-			// QUERY DE CONTRATO
-			txtId.setText("" /*String.valueOf(Empresa.getInstance().getContratos().size() + 1)*/);
-			// PENDIENTE
+			ResultSet resultSet = Empresa.getConexion().getResultSet("select count(*) from Contrato");
+			int valor = 0;
+			
+			try {
+				resultSet.next();
+				valor = resultSet.getInt(1);
+			} catch (SQLException e1) {
+				valor = 1;
+			}
+			
+			txtId.setText(String.valueOf(valor + 1));
 			
 			txtId.setBounds(101, 39, 160, 20);
 			panel_1.add(txtId);
