@@ -155,6 +155,8 @@ public class Principal extends JFrame {
 		menuBar.add(menuAdministrador);
 
 		menuCUsuarios = new JMenuItem("Crear Usuarios");
+		menuCUsuarios.setForeground(new Color(51, 102, 153));
+		menuCUsuarios.setBackground(Color.WHITE);
 		menuCUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/icons/add.png")));
 		menuCUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -166,6 +168,8 @@ public class Principal extends JFrame {
 		menuAdministrador.add(menuCUsuarios);
 
 		menuMUsuarios = new JMenuItem("Mostrar Usuarios");
+		menuMUsuarios.setForeground(new Color(51, 102, 153));
+		menuMUsuarios.setBackground(Color.WHITE);
 		menuMUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/icons/list (1).png")));
 		menuMUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -182,6 +186,8 @@ public class Principal extends JFrame {
 		menuBar.add(mnNewMenu_3);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("Ganancias");
+		mntmNewMenuItem.setIcon(new ImageIcon(Principal.class.getResource("/icons/bagofmoney_dollar_4399.png")));
+		mntmNewMenuItem.setBackground(Color.WHITE);
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Reportes report = new Reportes();
