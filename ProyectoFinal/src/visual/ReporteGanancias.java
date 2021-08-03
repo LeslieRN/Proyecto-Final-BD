@@ -7,11 +7,17 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import logico.Empresa;
+
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class ReporteGanancias extends JDialog {
@@ -19,11 +25,20 @@ public class ReporteGanancias extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JButton btnCancelar;
 	private JTable tblGanancias;
-	public ReporteGanancias() {
+	
+	private static DefaultTableModel model;
+	private static Object[] rows;
+	
+	public ReporteGanancias(String fechaEntregaA, String fechaEntregaB) {
 		setBounds(100, 100, 450, 300);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(255, 255, 255));
+		
+		String columns[] = {"Lenguaje", "Mes", "Total de ganancias"};
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(columns);
+		
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(new BorderLayout(0, 0));
@@ -38,6 +53,12 @@ public class ReporteGanancias extends JDialog {
 				panel.add(scrollPane, BorderLayout.CENTER);
 				{
 					tblGanancias = new JTable();
+					tblGanancias.setModel(model);
+					tblGanancias.setBackground(new Color(255, 255, 255));
+					tblGanancias.getTableHeader().setReorderingAllowed(false);
+					
+					
+					
 					scrollPane.setViewportView(tblGanancias);
 				}
 			}
@@ -58,6 +79,32 @@ public class ReporteGanancias extends JDialog {
 				buttonPane.add(btnCancelar);
 			}
 		}
+		cargarGanancias(fechaEntregaA, fechaEntregaB);
+	}
+	
+	private void cargarGanancias(String fechaEntregaA, String fechaEntregaB) {
+		
+		ResultSet resultSet = null;
+		if(fechaEntregaA != null) {
+			resultSet = Empresa.getConexion().getResultSet("select sum(C.montoTotal) as Ganancia, datename(m,P.fechaEntrega) as Mes, L.nombre as Lenguaje from Proyecto as P inner join Contrato as C 	on P.numeroContrato = C.numeroContrato inner join Lenguaje as L on P.idLenguaje = L.idLenguaje \r\n"
+					+ "where P.fechaEntrega BETWEEN '"+ fechaEntregaA +"' and '" + fechaEntregaB + "' and P.estado = 1  \r\n"
+					+ "group by datename(m,P.fechaEntrega), L.nombre order by Mes asc;");
+		} else {
+			resultSet = Empresa.getConexion().getResultSet("select sum(C.montoTotal) as Ganancia, datename(m,P.fechaEntrega) as Mes, L.nombre as Lenguaje from Proyecto as P inner join Contrato as C 	on P.numeroContrato = C.numeroContrato inner join Lenguaje as L on P.idLenguaje = L.idLenguaje where P.estado = 1 group by datename(m,P.fechaEntrega), L.nombre order by Mes asc");
+		}
+		
+		model.setRowCount(0);
+		rows = new Object[model.getColumnCount()];
+		try {
+			while(resultSet.next()) {
+				rows[0] = resultSet.getString(1);
+				rows[1] = resultSet.getString(2);
+				rows[2] = resultSet.getString(3);
+				model.addRow(rows);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}	
 	}
 
 }

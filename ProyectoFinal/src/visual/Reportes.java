@@ -9,6 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.border.TitledBorder;
+
+import logico.Empresa;
+
 import javax.swing.border.EtchedBorder;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
@@ -18,6 +21,10 @@ import java.util.Date;
 import java.util.Calendar;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -34,6 +41,7 @@ public class Reportes extends JDialog {
 
 	public Reportes() {
 		setTitle("Reportes");
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
 		setBounds(100, 100, 362, 440);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -76,9 +84,11 @@ public class Reportes extends JDialog {
 		panel_1.setLayout(null);
 		
 		rdbTodo = new JRadioButton("General");
+		rdbTodo.setSelected(true);
 		rdbTodo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				rdbTodo.setSelected(true);
 				if(rdbTodo.isSelected()) {
 					rdbEntreFechas.setSelected(false);
 					spnFinal.setEnabled(false);
@@ -96,7 +106,9 @@ public class Reportes extends JDialog {
 		rdbEntreFechas.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				rdbEntreFechas.setSelected(true);
 				if(rdbEntreFechas.isSelected()) {
+					rdbTodo.setSelected(false);
 					rdbTodo.setSelected(false);
 					spnFinal.setEnabled(true);
 					spnInicio.setEnabled(true);
@@ -149,13 +161,25 @@ public class Reportes extends JDialog {
 		btnGenerarReport = new JButton("Generar Reporte");
 		btnGenerarReport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ReporteGanancias reporteG = new ReporteGanancias();
-				reporteG.setModal(true);
-				reporteG.setVisible(true);
+				
+				if(rdbEntreFechas.isSelected()) {
+					String fechaEntregaA;
+					String fechaEntregaB;
+
+					fechaEntregaA = formato.format((Date) spnInicio.getValue());
+					fechaEntregaB = formato.format((Date) spnFinal.getValue());
+					
+					ReporteGanancias reporteL = new ReporteGanancias(fechaEntregaA, fechaEntregaB);
+					reporteL.setModal(true);
+					reporteL.setVisible(true);
+				} else {
+					ReporteGanancias reporteL = new ReporteGanancias(null, null);
+					reporteL.setModal(true);
+					reporteL.setVisible(true);
+				}
 			}
 		});
 		btnGenerarReport.setForeground(new Color(0, 51, 102));
-		btnGenerarReport.setEnabled(false);
 		btnGenerarReport.setBounds(185, 213, 119, 23);
 		panel.add(btnGenerarReport);
 		{
@@ -175,4 +199,5 @@ public class Reportes extends JDialog {
 			}
 		}
 	}
+	
 }
