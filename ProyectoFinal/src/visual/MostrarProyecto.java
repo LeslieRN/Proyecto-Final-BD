@@ -203,7 +203,7 @@ public class MostrarProyecto extends JDialog {
 	}
 
 	private static Object[] insertInRow(int idProyecto) {
-		ResultSet resultSet = Empresa.getConexion().getResultSet("select PR.nombre, TP.nombre, LE.nombre, PR.fechaIncio, PR.fechaFin from (Proyecto as PR inner join TipoProyecto as TP on PR.id_TipoProyecto = TP.id_TipoProyecto) inner join Lenguaje as LE on LE.idLenguaje = PR.idLenguaje where PR.idProyecto = " + idProyecto);
+		ResultSet resultSet = Empresa.getConexion().getResultSet("select PR.nombre, TP.nombre, LE.nombre, PR.fechaIncio, PR.fechaFin from (Proyecto as PR inner join TipoProyecto as TP on PR.id_TipoProyecto = TP.id_TipoProyecto) inner join LenguajeDeProgramacion as LE on LE.idLenguaje = PR.idLenguaje where PR.idProyecto = " + idProyecto);
 		rows = new Object[model.getColumnCount()];
 		try {
 			resultSet.next();

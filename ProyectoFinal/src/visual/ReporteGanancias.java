@@ -35,7 +35,7 @@ public class ReporteGanancias extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(255, 255, 255));
 		setTitle("Reporte de ganancias");
-		String columns[] = {"Lenguaje", "Mes", "Total de ganancias"};
+		String columns[] = {"Total de ganancias", "Mes", "Lenguaje"};
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(columns);
 		
@@ -83,11 +83,11 @@ public class ReporteGanancias extends JDialog {
 		
 		ResultSet resultSet = null;
 		if(fechaEntregaA != null) {
-			resultSet = Empresa.getConexion().getResultSet("select sum(C.montoTotal) as Ganancia, datename(m,P.fechaEntrega) as Mes, L.nombre as Lenguaje from Proyecto as P inner join Contrato as C 	on P.numeroContrato = C.numeroContrato inner join Lenguaje as L on P.idLenguaje = L.idLenguaje \r\n"
+			resultSet = Empresa.getConexion().getResultSet("select sum(C.montoTotal) as Ganancia, datename(m,P.fechaEntrega) as Mes, L.nombre as LenguajeDeProgramacion from Proyecto as P inner join Contrato as C 	on P.numeroContrato = C.numeroContrato inner join LenguajeDeProgramacion as L on P.idLenguaje = L.idLenguaje \r\n"
 					+ "where P.fechaEntrega BETWEEN '"+ fechaEntregaA +"' and '" + fechaEntregaB + "' and P.estado = 0  \r\n"
 					+ "group by datename(m,P.fechaEntrega), L.nombre order by Mes asc;");
 		} else {
-			resultSet = Empresa.getConexion().getResultSet("select sum(C.montoTotal) as Ganancia, datename(m,P.fechaEntrega) as Mes, L.nombre as Lenguaje from Proyecto as P inner join Contrato as C 	on P.numeroContrato = C.numeroContrato inner join Lenguaje as L on P.idLenguaje = L.idLenguaje where P.estado = 0 group by datename(m,P.fechaEntrega), L.nombre order by Mes asc");
+			resultSet = Empresa.getConexion().getResultSet("select sum(C.montoTotal) as Ganancia, datename(m,P.fechaEntrega) as Mes, L.nombre as LenguajeDeProgramacion from Proyecto as P inner join Contrato as C 	on P.numeroContrato = C.numeroContrato inner join LenguajeDeProgramacion as L on P.idLenguaje = L.idLenguaje where P.estado = 0 group by datename(m,P.fechaEntrega), L.nombre order by Mes asc");
 		}
 		
 		model.setRowCount(0);

@@ -54,7 +54,7 @@ public class Empresa {
 			Empresa.getConexion().executeInsert(insertSql);
 			if(emp instanceof Programador) {
 				for(int i = 0; i < ((Programador)emp).getLenguaje().size(); i++) {
-					String languageSQL = "INSERT INTO EmpleadoLenguaje VALUES((SELECT idLenguaje from Lenguaje where nombre='"+((Programador)emp).getLenguaje().get(i)+"'),"+emp.getCedula()+");";
+					String languageSQL = "INSERT INTO EmpleadoLenguaje VALUES((SELECT idLenguaje from LenguajeDeProgramacion where nombre='"+((Programador)emp).getLenguaje().get(i)+"'),"+emp.getCedula()+");";
 					Empresa.getConexion().executeInsert(languageSQL);
 				}
 			}
@@ -71,7 +71,7 @@ public class Empresa {
 	public void insertarProyecto(Proyecto pro, Contrato con) {
 		int idL = 0, idP = 0, idProyecto = 0;
 		String empProyectoSQL= "";
-		String idLenguaje = "SELECT idLenguaje FROM Lenguaje where nombre='"+pro.getLenguaje()+"';";
+		String idLenguaje = "SELECT idLenguaje FROM LenguajeDeProgramacion where nombre='"+pro.getLenguaje()+"';";
 		String idTipoProyecto = "SELECT id_TipoProyecto FROM TipoProyecto where nombre='"+pro.getTipo()+"';";
 		ResultSet resultSet = Empresa.getConexion().getResultSet(idLenguaje);
 		ResultSet resultSet2 = Empresa.getConexion().getResultSet(idTipoProyecto);

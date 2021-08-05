@@ -220,7 +220,7 @@ public class AgregarLenguaje extends JDialog {
 	}
 	public static void cargarLenguajes() {
 		
-		ResultSet resultSet = Empresa.getConexion().getResultSet("select nombre from Lenguaje");
+		ResultSet resultSet = Empresa.getConexion().getResultSet("select nombre from LenguajeDeProgramacion");
 		rows = new Object[model.getColumnCount()];
 		model.setRowCount(0);
 		try {

@@ -300,7 +300,7 @@ public class NuevoProyecto extends JDialog {
 	}
 
 	private static void cargarDatosComboboxLenguaje() {
-		String selectSql = "select nombre from Lenguaje;";
+		String selectSql = "select nombre from LenguajeDeProgramacion;";
 		ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
 		try {
 			while(resultSet.next()) {

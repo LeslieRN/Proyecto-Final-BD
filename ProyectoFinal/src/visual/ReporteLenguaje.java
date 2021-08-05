@@ -80,7 +80,7 @@ public class ReporteLenguaje extends JDialog {
 	}
 
 	private void cargarLenguajes() {
-		ResultSet resultSet = Empresa.getConexion().getResultSet("select count(*) as 'Cantidad Total de Proyectos Activos', L.nombre as Lenguaje from Proyecto as P inner join Lenguaje as L on P.idLenguaje = L.idLenguaje where P.estado = 1 group by L.nombre;");
+		ResultSet resultSet = Empresa.getConexion().getResultSet("select L.nombre, count(*) as 'Cantidad Total de Proyectos Activos' as LenguajeDeProgramacion from Proyecto as P inner join LenguajeDeProgramacion as L on P.idLenguaje = L.idLenguaje where P.estado = 1 group by L.nombre;");
 		model.setRowCount(0);
 		rows = new Object[model.getColumnCount()];
 		try {

@@ -225,7 +225,7 @@ public class AgregarEmpleado extends JDialog {
 	}
 	
 	public static void cargarEmpleados(String nombreLenguaje) {
-		String selectSql = "select E.cedula, E.nombre, P.nombre from Empleado as E inner join Puesto as P on E.idPuesto = P.idPuesto inner join EmpleadoLenguaje as EL on E.cedula = EL.cedula inner join Lenguaje as L on EL.idLenguaje = L.idLenguaje  where L.nombre = '"+nombreLenguaje+"'";
+		String selectSql = "select E.cedula, E.nombre, P.nombre from Empleado as E inner join Puesto as P on E.idPuesto = P.idPuesto inner join EmpleadoLenguaje as EL on E.cedula = EL.cedula inner join LenguajeDeProgramacion as L on EL.idLenguaje = L.idLenguaje  where L.nombre = '"+nombreLenguaje+"'";
 		ResultSet resultSet = Empresa.getConexion().getResultSet(selectSql);
 		rows = new Object[model.getColumnCount()];
 		model.setRowCount(0);
