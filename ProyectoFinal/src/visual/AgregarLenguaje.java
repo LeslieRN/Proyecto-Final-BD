@@ -219,31 +219,6 @@ public class AgregarLenguaje extends JDialog {
 	}
 	public static void cargarLenguajes() {
 		
-		/*
-		 * ResultSet resultSet = Empresa.getConexion().getResultSet("select CO.numeroContrato, CL.cedula, CL.nombre, PR.fechaIncio, PR.fechaEntrega, CO.montoTotal from (Contrato as CO inner join Cliente as CL on CO.cedula = CL.cedula) inner join Proyecto as PR on PR.numeroContrato = CO.numeroContrato");
-		
-		model.setRowCount(0);
-		rows = new Object[model.getColumnCount()];
-		
-		try {
-			while(resultSet.next()) {
-				rows[0] = resultSet.getInt(1);
-				rows[1] = resultSet.getInt(2);
-				rows[2] = resultSet.getString(3);
-				rows[3] = resultSet.getDate(4);
-				rows[4] = resultSet.getDate(5);
-				rows[5] = resultSet.getInt(6);
-				model.addRow(rows);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		 * 
-		 * */
-		//lenguaje = new ArrayList<String>();
-		//String[] nombreL = {"Python", "C#", "JavaScript", "Ruby", "C++", "C", "Java", "Angular"};
-		//lenguaje.addAll(Arrays.asList(nombreL));
-		
 		ResultSet resultSet = Empresa.getConexion().getResultSet("select nombre from Lenguaje");
 		rows = new Object[model.getColumnCount()];
 		model.setRowCount(0);
@@ -253,7 +228,6 @@ public class AgregarLenguaje extends JDialog {
 				model.addRow(rows);
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -14,7 +14,7 @@ public abstract class Empleado {
 	protected float precioHora;
 	
 	public Empleado(String cedula, String nombre, String apellido, String direccion,String telefono, String sexo, float salario,
-			/*String nombreProyecto*/ String evaluacion, float precioHora) {
+			String evaluacion, float precioHora) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -23,7 +23,6 @@ public abstract class Empleado {
 		this.telefono = telefono;
 		this.sexo = sexo;
 		this.salario = salario;
-		//this.nombreProyecto = nombreProyecto;
 		this.evaluacion = evaluacion;
 		this.precioHora = precioHora;
 	}
@@ -83,15 +82,6 @@ public abstract class Empleado {
 	public void setSalario(float salario) {
 		this.salario = salario;
 	}
-
-	/*public String getNombreProyecto() {
-		return nombreProyecto;
-	}
-
-	public void setNombreProyecto(String nombreProyecto) {
-		this.nombreProyecto = nombreProyecto;
-	}*/
-
 	public String getEvaluacion() {
 		return evaluacion;
 	}

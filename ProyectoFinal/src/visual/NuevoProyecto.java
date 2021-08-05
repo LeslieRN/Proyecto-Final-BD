@@ -217,9 +217,6 @@ public class NuevoProyecto extends JDialog {
 			panel.add(txtCodigo);
 			txtCodigo.setColumns(10);
 
-			/**
-			 *	Decidi modificar esta minima parte de tu programacion para que las fechas se vean en formato de dia/mes/año 
-			 * */
 			Date today = new Date();
 			spnFinicio = new JSpinner(new SpinnerDateModel(today, null, null, Calendar.MONTH));
 			JSpinner.DateEditor editorInicio = new JSpinner.DateEditor(spnFinicio, "dd/MM/yyyy");
@@ -300,9 +297,6 @@ public class NuevoProyecto extends JDialog {
 		}
 		return arrayEmpleados;  
 	}
-	/**
-	 * Esto es para cuando se regrese a la ventana siguiente
-	 */
 
 	private static void cargarDatosComboboxLenguaje() {
 		String selectSql = "select nombre from Lenguaje;";
@@ -312,7 +306,6 @@ public class NuevoProyecto extends JDialog {
 				modelComboLanguage.addElement(resultSet.getString(1));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -335,7 +328,6 @@ public class NuevoProyecto extends JDialog {
 		for(int i = 0; i < temp_emp.size(); i++) {
 			rows[0] = temp_emp.get(i).getCedula();
 			rows[1] = temp_emp.get(i).getNombre();
-			//modificar
 			rows[2] = temp_emp.get(i).getClass().getSimpleName().toString();
 			model.addRow(rows);
 		}

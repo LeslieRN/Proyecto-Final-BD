@@ -56,9 +56,6 @@ public class ReporteGanancias extends JDialog {
 					tblGanancias.setModel(model);
 					tblGanancias.setBackground(new Color(255, 255, 255));
 					tblGanancias.getTableHeader().setReorderingAllowed(false);
-					
-					
-					
 					scrollPane.setViewportView(tblGanancias);
 				}
 			}

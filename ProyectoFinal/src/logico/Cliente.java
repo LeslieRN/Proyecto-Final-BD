@@ -7,8 +7,6 @@ public class Cliente {
 	private String direccion;
 	private String telefono;
 	private ArrayList<Contrato> contratos;
-	
-	// ESTO YA TIENE QUE ELIMINARSE
 	private int cantiProyectos = 1;
 	
 	public Cliente(String cedula, String nombre, String direccion, String telefono) {

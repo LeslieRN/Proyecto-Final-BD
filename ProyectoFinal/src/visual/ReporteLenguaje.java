@@ -56,10 +56,6 @@ public class ReporteLenguaje extends JDialog {
 					tblLenguaje.setModel(model);
 					tblLenguaje.setBackground(new Color(255, 255, 255));
 					tblLenguaje.getTableHeader().setReorderingAllowed(false);
-					
-					
-					
-					
 					scrollPane.setViewportView(tblLenguaje);
 				}
 			}

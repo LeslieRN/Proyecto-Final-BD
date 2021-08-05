@@ -96,7 +96,6 @@ public class Principal extends JFrame {
 		menuCProyecto = new JMenuItem("Crear Proyecto");
 		menuCProyecto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				/*String codigo, String nombre, Date fechaInicio,Date fechaFin,int tipo,int lenguaje,int valor*/
 				NuevoProyecto pro = new NuevoProyecto(null, null, null, null, null, null, null);
 				pro.setModal(true);
 				pro.setVisible(true);

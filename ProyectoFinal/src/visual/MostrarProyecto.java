@@ -121,7 +121,6 @@ public class MostrarProyecto extends JDialog {
 										proyectos[4] = tblMostrarProyecto.getValueAt(seleccion, 4).toString();
 										btnFinalizar.setEnabled(true);
 										btnProrroga.setEnabled(true);
-										//btnInsertarEmpleado.setEnabled(true);
 									}
 								}
 							});

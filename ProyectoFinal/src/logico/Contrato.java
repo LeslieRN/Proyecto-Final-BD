@@ -4,7 +4,7 @@ public class Contrato {
 
 	private int numeroContrato;
 	private String cedulaCliente;
-	private String nombreProyecto; //se puede cambiar a tipo proyecto, a espera de la siguiente clase
+	private String nombreProyecto;
 	private float montoTotal;
 	private float penalidad;
 	private Cliente cliente;
