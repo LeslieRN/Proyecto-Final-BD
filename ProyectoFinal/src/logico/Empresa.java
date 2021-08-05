@@ -19,7 +19,6 @@ public class Empresa {
 			empresa = new Empresa();
 		}
 		return empresa;
-
 	}
 
 	public static Conexion getConexion() {

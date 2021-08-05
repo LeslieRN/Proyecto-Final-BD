@@ -203,6 +203,7 @@ public class Empleado extends JDialog {
 		spnSalarioHora.setBackground(new Color(255, 255, 255));
 		spnSalarioHora.setForeground(new Color(0, 0, 0));
 		spnSalarioHora.setModel(new SpinnerNumberModel(new Integer(100), new Integer(100), null, new Integer(1)));
+		spnSalarioHora.setValue(100);
 		spnSalarioHora.setBounds(70, 28, 153, 20);
 		panel_3.add(spnSalarioHora);
 
