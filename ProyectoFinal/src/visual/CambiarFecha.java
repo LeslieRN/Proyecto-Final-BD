@@ -44,6 +44,7 @@ public class CambiarFecha extends JDialog {
 	private String codigoProyecto;
 
 	public CambiarFecha(String nombre,String proyectosFecha) {
+		setTitle("Modificar Fecha");
 		this.codigoProyecto = nombre;
 		this.fechaEntregaInicial = proyectosFecha;
 		

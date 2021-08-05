@@ -20,13 +20,14 @@ import logico.Empresa;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
+import javax.swing.JPasswordField;
 
 public class Login extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtNombreUsuario;
-	private JTextField txtPassword;
 	private JButton btnIngresar;
+	private JPasswordField passwordField;
 
 	
 	public static void main(String[] args) {
@@ -49,6 +50,7 @@ public class Login extends JDialog {
 	 * Create the dialog.
 	 */
 	public Login() {
+		setTitle("Iniciar");
 		setBounds(100, 100, 450, 300);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -78,12 +80,11 @@ public class Login extends JDialog {
 				panel.add(txtNombreUsuario);
 				txtNombreUsuario.setColumns(10);
 			}
-			{
-				txtPassword = new JTextField();
-				txtPassword.setBounds(170, 123, 169, 20);
-				panel.add(txtPassword);
-				txtPassword.setColumns(10);
-			}
+			
+			passwordField = new JPasswordField();
+			passwordField.setBounds(170, 123, 169, 20);
+			panel.add(passwordField);
+			
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -95,15 +96,18 @@ public class Login extends JDialog {
 				btnIngresar.setIcon(new ImageIcon(Login.class.getResource("/icons/enter.png")));
 				btnIngresar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						if(!(Empresa.getInstance().checkUserData(txtNombreUsuario.getText(), txtPassword.getText()))) {
+						
+						char[] arrayC = passwordField.getPassword();
+						String pass = new String(arrayC);
+						
+						
+						if(!(Empresa.getInstance().checkUserData(txtNombreUsuario.getText(), pass))) {
 							JOptionPane.showMessageDialog(null, "Usuario no encontrado o datos incorrectos", "Informacion", JOptionPane.ERROR_MESSAGE);
 						} else {
 							Principal ventanaPrincipal = new Principal();
 							ventanaPrincipal.setVisible(true);
 							setVisible(false);
-
 						}
-
 					}
 				});
 				btnIngresar.setBorderPainted(false);

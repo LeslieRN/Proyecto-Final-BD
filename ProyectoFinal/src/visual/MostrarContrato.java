@@ -36,6 +36,7 @@ public class MostrarContrato extends JDialog {
 	private static Object[] rows;
 
 	public MostrarContrato() {
+		setTitle("Mostrar contratos");
 		setBounds(100, 100, 723, 422);
 		setLocationRelativeTo(null);
 		String columns[] = {"Num. Contrato", "Cedula Cliente", "Nombre Cliente", "Fecha Inicio", "Fecha Entrega", "Monto Total"};

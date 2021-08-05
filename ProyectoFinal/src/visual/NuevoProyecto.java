@@ -56,6 +56,7 @@ public class NuevoProyecto extends JDialog {
 	public NuevoProyecto(String codigo, String nombre, Date fechaInicio,Date fechaFin,String tipo,String lenguaje,ArrayList<Empleado> temp_emp) {
 		setBounds(100, 100, 584, 451);
 		setLocationRelativeTo(null);
+		setTitle("Crear proyecto");
 		model = new DefaultTableModel();
 		modelComboLanguage = new DefaultComboBoxModel(); 
 		modelComboTipo = new DefaultComboBoxModel();

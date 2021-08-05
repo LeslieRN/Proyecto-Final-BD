@@ -30,6 +30,7 @@ public class MostrarCliente extends JDialog {
 	private Object[] rows;
 
 	public MostrarCliente() {
+		setTitle("Mostrar clientes");
 		setBounds(100, 100, 590, 467);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());

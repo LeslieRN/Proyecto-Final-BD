@@ -65,7 +65,7 @@ public class NuevoContrato extends JDialog {
 	public NuevoContrato(String codigo, String nombre, Date fechaInicio,Date fechaFin,String tipo,String lenguaje,ArrayList<Empleado> temporal_Empleado) {
 		setBounds(100, 100, 650, 420);
 		setLocationRelativeTo(null);
-		
+		setTitle("Crear contrato");
 		this.montoTotalContrato = Empresa.getInstance().calcularMontoTotalContrato(calcularDiasDeContrato(fechaInicio, fechaFin), temporal_Empleado);
 		
 		getContentPane().setLayout(new BorderLayout());

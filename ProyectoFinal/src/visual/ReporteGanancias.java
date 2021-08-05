@@ -34,7 +34,7 @@ public class ReporteGanancias extends JDialog {
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(255, 255, 255));
-		
+		setTitle("Reporte de ganancias");
 		String columns[] = {"Lenguaje", "Mes", "Total de ganancias"};
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(columns);

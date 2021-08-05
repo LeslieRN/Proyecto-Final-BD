@@ -32,7 +32,7 @@ public class ReporteLenguaje extends JDialog {
 	public ReporteLenguaje() {
 		setBounds(100, 100, 450, 300);
 		setLocationRelativeTo(null);
-		
+		setTitle("Reporte de lenguajes");
 		String columns[] = {"Lenguaje de programacion", "Cantidad"};
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(columns);

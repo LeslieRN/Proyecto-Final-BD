@@ -43,6 +43,7 @@ public class MostrarEmpleado extends JDialog {
 	private JComboBox cmbEmpleados;
 
 	public MostrarEmpleado() {
+		setTitle("Mostrar empleados");
 		setBounds(100, 100, 590, 467);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());

@@ -46,6 +46,8 @@ public class AgregarEmpleado extends JDialog {
 	private JButton btnCancelar;
 
 	public AgregarEmpleado(String string) {
+		setTitle("Agreagar Empleado");
+		
 		this.nombreLenguaje = string;
 		this.empleados = new String[3];
 		this.empleadosIndex = 0;

@@ -47,6 +47,8 @@ public class Principal extends JFrame {
 				Empresa.getConexion().cerrarConexion();
 			}
 		});
+		
+		setTitle("Principal");
 		dimension = super.getToolkit().getScreenSize();
 		super.setSize(dimension.width, dimension.height);
 		setLocationRelativeTo(null);

@@ -69,6 +69,7 @@ public class Empleado extends JDialog {
 	private JFormattedTextField formattedTextField;
 
 	public Empleado() {
+		setTitle("Agregar Empleado");
 		setBounds(100, 100, 684, 491);
 		setLocationRelativeTo(null);
 		modelProg = new DefaultTableModel();

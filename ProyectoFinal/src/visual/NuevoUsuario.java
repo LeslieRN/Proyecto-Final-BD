@@ -24,19 +24,22 @@ import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JPasswordField;
 
 public class NuevoUsuario extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtNombreUsuario;
-	private JTextField txtPassword;
-	private JTextField txtPasswordRepetir;
 	private JButton btnInsertarUsuario;
 	private JButton btnCancelar;
 	private JComboBox cmbTipoUsuario;
 	private static DefaultComboBoxModel modelComboUsuario;
+	private JPasswordField passwordField;
+	private JPasswordField passwordField_1;
 
 	public NuevoUsuario() {
+		setTitle("Crear usuario");
+		
 		setBounds(100, 100, 454, 330);
 		setLocationRelativeTo(null);
 		modelComboUsuario = new DefaultComboBoxModel();
@@ -66,19 +69,9 @@ public class NuevoUsuario extends JDialog {
 		lblNewLabel_1.setBounds(20, 83, 99, 14);
 		panel.add(lblNewLabel_1);
 		
-		txtPassword = new JTextField();
-		txtPassword.setBounds(144, 80, 206, 20);
-		panel.add(txtPassword);
-		txtPassword.setColumns(10);
-		
 		JLabel lblNewLabel_2 = new JLabel("Repetir Contrase\u00F1a:");
 		lblNewLabel_2.setBounds(20, 133, 123, 14);
 		panel.add(lblNewLabel_2);
-		
-		txtPasswordRepetir = new JTextField();
-		txtPasswordRepetir.setBounds(144, 130, 206, 20);
-		panel.add(txtPasswordRepetir);
-		txtPasswordRepetir.setColumns(10);
 		
 		cmbTipoUsuario = new JComboBox();
 		cmbTipoUsuario.setModel(modelComboUsuario);
@@ -89,6 +82,14 @@ public class NuevoUsuario extends JDialog {
 		JLabel lblNewLabel_3 = new JLabel("Tipo Usuario:");
 		lblNewLabel_3.setBounds(20, 183, 99, 14);
 		panel.add(lblNewLabel_3);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(144, 80, 206, 20);
+		panel.add(passwordField);
+		
+		passwordField_1 = new JPasswordField();
+		passwordField_1.setBounds(144, 130, 206, 20);
+		panel.add(passwordField_1);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(51, 102, 153));
@@ -113,18 +114,25 @@ public class NuevoUsuario extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				User nuevoUsuario = null;
 				
-				nuevoUsuario = new User("User " +String.valueOf("USER-"+User.getCodigoUsuario() + 1), txtNombreUsuario.getText(), txtPassword.getText(), cmbTipoUsuario.getSelectedItem().toString());
+				char[] arrayC = passwordField.getPassword();
+				String pass = new String(arrayC);
+				
+				char[] arrayD = passwordField_1.getPassword();
+				String passR = new String(arrayD);
+
+				nuevoUsuario = new User("User " +String.valueOf("USER-"+User.getCodigoUsuario() + 1), txtNombreUsuario.getText(), pass, cmbTipoUsuario.getSelectedItem().toString());
 				
 				if(!(Empresa.getInstance().checkSiExisteUser(txtNombreUsuario.getText()))) {
 					JOptionPane.showMessageDialog(null, "Usuario no insertado", "Informacion", JOptionPane.ERROR_MESSAGE);
-				} else if (!(txtPasswordRepetir.getText().equalsIgnoreCase(txtPassword.getText()))) {
-					JOptionPane.showMessageDialog(null, "Usuario no insertado", "Informacion", JOptionPane.ERROR_MESSAGE);
 				} else {
-					Empresa.getConexion().executeInsert("insert into Usuario(nombre, contraseña, idTipoUsuario) values ('"+ txtNombreUsuario.getText() + "', '"+ txtPassword.getText() +"', "+ (cmbTipoUsuario.getSelectedIndex()+1) +")");
-					JOptionPane.showMessageDialog(null, "Usuario insertado con éxito", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+					if(pass.equalsIgnoreCase(passR)) {
+						Empresa.getConexion().executeInsert("insert into Usuario(nombre, contraseña, idTipoUsuario) values ('"+ txtNombreUsuario.getText() + "', '"+ pass +"', "+ (cmbTipoUsuario.getSelectedIndex()+1) +")");
+						JOptionPane.showMessageDialog(null, "Usuario insertado con éxito", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+						clean();
+					} else {
+						JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE);
+					}			
 				}
-				
-				clean();
 			}
 		});
 		cargarTipoUsuario();
@@ -135,8 +143,8 @@ public class NuevoUsuario extends JDialog {
 	
 	private void clean() {
 		txtNombreUsuario.setText("");
-		txtPassword.setText("");
-		txtPasswordRepetir.setText("");
+		passwordField.setText("");
+		passwordField_1.setText("");
 		
 	}
 	
